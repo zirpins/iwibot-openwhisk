@@ -1,0 +1,9 @@
+language: python
+node_js:
+  - "3.6"
+before_script:
+  - echo "Beginn der Initiierung"
+script:
+  - echo "Beginn der Hauptphase"
+after_script:
+  - echo "Beginn der Schlußphase"

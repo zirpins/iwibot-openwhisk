@@ -1,0 +1,79 @@
+method: bundle
+
+# babel
+#
+# Each file can be babel transpiled. When set to:
+#   - An object, the object is parsed as babel configuration.
+#   - `true`, a `.babelrc` in the service's directory is used as babel configuration.
+#  Default is `null`.
+babel: false
+
+# uglify
+#
+# To minify each file.
+# Default is `false`.
+uglify: true
+
+# uglifyModules
+#
+# `node_modules` will be uglified. Requires `uglify` to be `true`.
+uglifyModules: true
+
+# uglifySource
+#
+# source will be uglified. Requires `uglify` to be `true`.
+uglifySource: true
+
+# sourceMaps
+#
+# Includes inline source maps for `babel` and `uglify`.
+# Default is `true`.
+sourceMaps: false
+
+# package the functions in parallel
+synchronous: false
+
+# functions
+#
+# Like the serverless.yml functions definition, but only for build options
+functions:
+  Meal:
+    # include
+    #
+    # An array of glob patterns to match against, including each file
+    #include:
+    #  - nodejs-joke/lib/**/*
+    #  - nodejs-joke/package.json
+
+    # exclude
+    #
+    # An array of glob patterns to exclude from the `include`
+    #exclude:
+    #  - **/*.json
+
+    modules:
+      # modules.exclude
+      #
+      # Exclude specific node_modules for a function
+      #exclude:
+      #  - lutils
+
+      #include:
+      #  - request
+      #  - js-joda
+      # modules.excludeDeep
+      #
+      # Exclude deeply nested node_modules for a function
+      #excludeDeep:
+      #  - lutils
+
+# include
+#
+# Included for all functions
+include:
+#  - "someFolder"
+# exclude
+#
+# Excluded for all functions
+exclude:
+#  - "*" # Ignores the root directory

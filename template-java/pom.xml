@@ -1,0 +1,145 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>de.hska</groupId>
+    <artifactId>action</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+
+    <name>Java Action maven pom template</name>
+    <description>template parent pom</description>
+    <packaging>jar</packaging>
+
+    <developers>
+        <developer>
+            <name>Armin Kunkel</name>
+            <email>kuar1013@hs-karlsruhe.de</email>
+            <organization>University of Applied Sciences Karlsruhe</organization>
+            <organizationUrl>https://hs-karlsruhe.de</organizationUrl>
+            <roles>
+                <role>developer</role>
+                <role>admin</role>
+            </roles>
+        </developer>
+    </developers>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.8.5</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.7.0</version>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <!--<plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+            </plugin>-->
+        </plugins>
+
+        <pluginManagement>
+            <plugins>
+
+                <!-- The Assembly Plugin for Maven is primarily intended to allow users to aggregate the project output
+                     along with its dependencies, modules, site documentation, and other files into a single distributable archive.
+                     Formats:
+                     - zip
+                     - tar
+                     - tar.gz (or tgz)
+                     - tar.bz2 (or tbz2)
+                     - tar.snappy
+                     - tar.xz (or txz)
+                     - jar      jar-with-dependencies
+                     - dir
+                     - war
+                     - and any other format that the ArchiveManager has been configured for
+                     -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-assembly-plugin</artifactId>
+                    <version>3.1.0</version>
+                    <configuration>
+                        <descriptorRefs>
+                            <!--Predefined descriptors
+                                - bin
+                                    Produce binary distribution of the project (of the jar archive + README, LICENCE, NOTICE files in project root)
+                                    in three archive formats: tar.gz, tar.bz2, and zip
+                                - jar-with-dependencies
+                                    Produce JAR which contains the binary output of the project, along its the unpacked dependencies
+                                - src
+                                    Produce source archive with the contents of your project's /src directory structure
+                                - project
+                                    Produce archive with the whole project minus the /target directories
+                                     -->
+                            <!--<descriptorRef>bin</descriptorRef>-->
+                            <descriptorRef>jar-with-dependencies</descriptorRef>
+                            <!-- <descriptorRef>src</descriptorRef>
+                            <descriptorRef>project</descriptorRef> -->
+                        </descriptorRefs>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>make-assembly</id> <!-- this is used for inheritance merges -->
+                            <phase>package</phase> <!-- bind to the packaging phase -->
+                            <goals>
+                                <goal>single</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+
+        <!-- Use properties with ${property.name} outside the pom in eg. application.properties files-->
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+            <resource>
+                <directory>src/test/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+    </build>
+
+    <properties>
+
+        <!-- non-dependencies -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <java.version>1.8</java.version>
+
+        <!-- commons and utils -->
+
+        <!-- persistence -->
+
+        <!-- password validation -->
+
+        <!-- maven plugins -->
+        <maven-surefire-plugin.version>2.19.1</maven-surefire-plugin.version>
+        <maven-compiler-plugin.version>3.6.1</maven-compiler-plugin.version>
+
+        <!-- test config-->
+        <skip>true</skip>
+
+    </properties>
+
+</project>

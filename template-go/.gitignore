@@ -1,0 +1,5 @@
+# Created by .ignore support plugin (hsz.mobi)
+
+bin/
+src/*
+!src/de.hska.iwibot.actions.go/

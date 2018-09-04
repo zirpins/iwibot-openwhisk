@@ -1,0 +1,11 @@
+language: node_js
+node_js:
+  - 0.8
+  - '0.10'
+before_script:
+  - echo "Beginn der Initiierung"
+  - npm install -g grunt-cli
+script:
+  - echo "Beginn der Hauptphase"
+after_script:
+  - echo "Beginn der Schlußphase"

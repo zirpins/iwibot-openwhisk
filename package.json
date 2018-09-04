@@ -1,0 +1,17 @@
+{
+  "name": "IWIBotBackand",
+  "version": "1.0.0",
+  "description": "Sample OpenWhisk NodeJS serverless framework service.",
+  "main": "handler.js",
+  "keywords": [
+    "serverless",
+    "openwhisk"
+  ],
+  "devDependencies": {
+    "serverless": "^1.30.3",
+    "serverless-build-plugin": "^2.4.0-alpha.0",
+    "serverless-openwhisk": ">=0.13.0",
+    "serverless-python-requirements": "^4.1.1"
+  },
+  "dependencies": {}
+}

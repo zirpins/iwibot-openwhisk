@@ -1,0 +1,14 @@
+{
+    "name": "action-template-php",
+    "description": "PHP action template",
+    "type": "project",
+    "require": {
+
+    },
+    "authors": [
+        {
+            "name": "Armin Kunkel",
+            "email": "armin@kunkel24.de"
+        }
+    ]
+}

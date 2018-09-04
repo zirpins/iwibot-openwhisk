@@ -1,0 +1,21 @@
+{
+  "name": "RouterV2",
+  "description": "Openwhisk action that passes recived params to Watson conversation service and maps the returned intent to a action",
+  "license": "Apache-2.0",
+  "version": "1.0.0",
+  "main": "lib/Router.js",
+  "scripts": {
+    "test": "grunt nodeunit"
+  },
+  "dependencies": {
+    "watson-developer-cloud": "^3.4.2",
+    "request": "^2.81.0"
+  },
+  "devDependencies": {
+    "grunt": "~1.0.1",
+    "grunt-cli": "^1.2.0",
+    "grunt-contrib-jshint": "~1.1.0",
+    "grunt-contrib-nodeunit": "~1.0.0",
+    "grunt-contrib-watch": "^1.0.0"
+  }
+}

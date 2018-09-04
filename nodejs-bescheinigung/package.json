@@ -1,0 +1,20 @@
+{
+  "name": "bescheinigung",
+  "description": "IWIBot module for receiving certificates (KVV, ImmaBesch..)",
+  "license": "Apache-2.0",
+  "version": "1.0.0",
+  "main": "lib/Bescheinigung.js",
+  "scripts": {
+    "test": "grunt nodeunit"
+  },
+  "dependencies": {
+    "request": "^2.81.0"
+  },
+  "devDependencies": {
+    "grunt": "~1.0.1",
+    "grunt-cli": "^1.2.0",
+    "grunt-contrib-jshint": "~1.1.0",
+    "grunt-contrib-nodeunit": "~1.0.0",
+    "grunt-contrib-watch": "^1.0.0"
+  }
+}

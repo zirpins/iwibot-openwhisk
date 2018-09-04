@@ -1,0 +1,22 @@
+{
+  "name": "wikipedia",
+  "description": "IWIBot module for the link to wikipedia",
+  "license": "Apache-2.0",
+  "version": "1.0.0",
+  "main": "lib/Wikipedia.js",
+  "scripts": {
+    "test": "grunt nodeunit"
+  },
+  "dependencies": {
+    "nodemw": "^0.12.1",
+    "request": "^2.81.0",
+    "wikijs": "^4.7.0"
+  },
+  "devDependencies": {
+    "grunt": "^1.0.3",
+    "grunt-cli": "^1.2.0",
+    "grunt-contrib-jshint": "~1.1.0",
+    "grunt-contrib-nodeunit": "~1.0.0",
+    "grunt-contrib-watch": "^1.0.0"
+  }
+}
