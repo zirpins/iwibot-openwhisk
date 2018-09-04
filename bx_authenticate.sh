@@ -1,9 +1,8 @@
 #!/bin/bash
 # Login requiered to provision the API Gateway
 source local.env
-bx login -a "$API_ENDPOINT" --apikey "$API_KEY" \
+bx login -a "$API_ENDPOINT" -u "$BLUEMIX_USERNAME" -p "$BLUEMIX_PASSWORD" \
     -o "$BLUEMIX_ORGANIZATION" -s "$BLUEMIX_SPACE" \
-    -c "$BLUEMIX_ACCOUNT_ID"
 # target org in cf
 bx target --cf "$BLUEMIX_ORGANIZATION"
 # install wsk plugin for the bluemix cli
