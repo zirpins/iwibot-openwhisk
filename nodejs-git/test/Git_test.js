@@ -2,7 +2,7 @@
  * Created by Armin on 05.06.2017.
  */
 var request = require('request');
-var actionUrl = 'https://service.us.apiconnect.ibmcloud.com/gws/apigateway/api/'+process.env.WSK_API_CODE+'/iwibotTest/test';
+var actionUrl = process.env.ACTION_PREFIX_URL + '/test';
 
 module.exports = {
     'Test Action Test' : function (test) {

@@ -7,7 +7,7 @@
 
 var conversation = require('../lib/conversation');
 var request = require('request');
-var actionUrl = 'https://service.us.apiconnect.ibmcloud.com/gws/apigateway/api/'+process.env.WSK_API_CODE+'/iwibotTest/router';
+var actionUrl = process.env.ACTION_PREFIX_URL + '/router';
 var initParams = {
     semester: 5,
     courseOfStudies: 'INFB',
