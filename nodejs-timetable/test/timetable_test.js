@@ -2,6 +2,9 @@
  * Created by Armin on 11.06.2017.
  */
 var request = require('request');
+var expect = require('chai').expect;
+var assert = require('assert');
+var log = require('../../utils/Logger');
 var actionUrl = process.env.ACTION_PREFIX_URL + '/timetable';
 
 var params = {
@@ -9,21 +12,17 @@ var params = {
     courseOfStudies: 'INFB'
 };
 
-module.exports = {
-    'Meal Action Test' : function (test) {
-        test.expect(1);
+describe("Timetable Action Test", function () {
+    it("returns a timetable", function () {
         request.post({
             headers: {'content-type': 'text/plain'},
             url: actionUrl,
             body: JSON.stringify(params)
         }, function (err, response, body) {
-            console.log('\n Action URL: \n' + actionUrl);
-            console.log('\n Body:       \n' + JSON.stringify(body, null, 4));
-            console.log('\n Error:      \n' + err);
-            console.log('\n Response:   \n' + JSON.stringify(response, null, 4));
+            log(response, body, err, actionUrl);
             body = JSON.parse(body);
-            test.ok(typeof body.payload === 'string');
-            test.done();
+
+            assert.isTrue('payload' in body);
         });
-    }
-};
+    });
+});

@@ -2,6 +2,9 @@
  * Created by Armin on 26.08.2017.
  */
 var request = require('request');
+var expect = require('chai').expect;
+var assert = require('assert');
+var log = require('../../utils/Logger');
 var actionUrl = process.env.ACTION_PREFIX_URL + '/weather';
 
 var params = {
@@ -9,22 +12,17 @@ var params = {
     courseOfStudies: 'INFB'
 };
 
-module.exports = {
-    'Weather Action Test' : function (test) {
-        test.expect(2);
+describe("Weather Action Test", function () {
+    it("returns the weather forecast for Karlsruhe", function () {
         request.post({
             headers: {'content-type': 'text/plain'},
             url: actionUrl,
             body: JSON.stringify(params)
         }, function (err, response, body) {
-            console.log('\n Action URL: \n' + actionUrl);
-            console.log('\n Body:       \n' + JSON.stringify(body, null, 4));
-            console.log('\n Error:      \n' + err);
-            console.log('\n Response:   \n' + JSON.stringify(response, null, 4));
             body = JSON.parse(body);
-            test.ok('payload' in body);
-            test.ok('htmlText' in body);
-            test.done();
+            log(response, body, err, actionUrl);
+            assert.isTrue('payload' in body);
+            assert.isTrue('htmlText' in body);
         });
-    }
-};
+    });
+});

@@ -1,17 +1,30 @@
 {
-  "name": "IWIBotBackand",
+  "name": "IWIBotOpenwhiskBackend",
   "version": "1.0.0",
-  "description": "Sample OpenWhisk NodeJS serverless framework service.",
-  "main": "handler.js",
+  "description": "OpenWhisk serverless framework IWIBotOpenwhiskBackend service.",
   "keywords": [
     "serverless",
-    "openwhisk"
+    "openwhisk",
+    "orchestration",
+    "composition"
   ],
+  "scripts": {
+    "deploy": "serverless deploy",
+    "undeploy": "serverless remove",
+    "test": "bash test-banner.sh && find ./ -path ./node_modules -prune -o -name '*_test.js' | xargs mocha -R spec"
+  },
   "devDependencies": {
     "serverless": "^1.30.3",
     "serverless-build-plugin": "^2.4.0-alpha.0",
     "serverless-openwhisk": ">=0.13.0",
-    "serverless-python-requirements": "^4.1.1"
+    "serverless-python-requirements": "^4.1.1",
+    "sinon": "^6.2.0",
+    "watson-developer-cloud": "^3.9.1"
   },
-  "dependencies": {}
+  "dependencies": {
+    "chai": "^4.1.2",
+    "express": "^4.16.3",
+    "mocha": "^5.2.0",
+    "request": "^2.88.0"
+  }
 }

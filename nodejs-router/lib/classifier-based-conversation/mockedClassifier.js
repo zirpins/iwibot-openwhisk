@@ -2,7 +2,7 @@
  * ========================================== !CAUTION! ==========================================
  * Mock-Classifier-Rest-Service for testing changes in the conversation-logic without having
  * a deployed Classifier-Rest-Service. Do not use this thing for anything but testing-purposes!
- * This classifier only accepts the test-sentences used by router_test.js
+ * This classifier only accepts the test-sentences used by router-test.js
  * ========================================== !CAUTION! ==========================================
  */
 

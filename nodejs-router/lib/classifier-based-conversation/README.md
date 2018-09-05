@@ -79,7 +79,7 @@ Der Wechsel zwischen den beiden Conversation-Services ist ohne großen Aufwand i
 
 ### Testabdeckung
 
-Um den korrekten Ablauf von Konversationen sicherzustellen, werden alle mögliche Eingabeabfolgen durch den Nutzer in <a href="../../test/conversation_test.js"> `conversation_test.js` </a> abgedeckt. Die Tests müssen mindestens folgende Fälle umfassen:
+Um den korrekten Ablauf von Konversationen sicherzustellen, werden alle mögliche Eingabeabfolgen durch den Nutzer in <a href="../../test/conversation-test.js"> `conversation-test.js` </a> abgedeckt. Die Tests müssen mindestens folgende Fälle umfassen:
 1. einstufige Intents
 2. zweistufige Intents mit
   3. Intent und Entity im selben Satz

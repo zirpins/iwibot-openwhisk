@@ -1,0 +1,172 @@
+service: IWIBotBackend
+
+provider:
+  name: openwhisk
+
+package:
+  name: IWIBot
+  individually: true
+  exclude:
+    - '**/*'
+
+plugins:
+  - serverless-openwhisk
+
+functions:
+  #Schwimmbad:
+  #  name: SchwimmbadTwi
+  #  runtime: java
+  #  handler: java-schwimmbad/target/Schwimmbad.jar:de.hska.iwibot.actions.java.Schwimmbad
+  #  annotations:
+  #    web-export: true
+  #  package:
+  #    artifact: java-schwimmbad/target/Schwimmbad.jar
+
+  Joke:
+    name: Joke
+    runtime: nodejs:8
+    handler: nodejs-joke/lib/Joke.main
+    package:
+      include:
+        - nodejs-joke/lib/**/*
+        - nodejs-joke/package.json
+        - nodejs-joke/README.md
+
+  Bescheinigung:
+    name: Bescheinigung
+    runtime: nodejs:8
+    handler: nodejs-bescheinigung/lib/Bescheinigung.main
+    package:
+      include:
+        - nodejs-bescheinigung/lib/**/*
+        - nodejs-bescheinigung/package.json
+        - nodejs-bescheinigung/README.md
+
+  Meal:
+    name: Meal
+    runtime: nodejs:8
+    handler: nodejs-meal/lib/Meal.main
+    package:
+      include:
+        - nodejs-meal/lib/**/*
+        - nodejs-meal/package.json
+        - nodejs-meal/README.md
+
+  Router:
+    name: Router
+    runtime: nodejs:8
+    handler: nodejs-router/lib/Router.main
+    bind:
+      - service:
+          name: conversation
+          instance: conversation
+    annotations:
+      web-export: true
+    events:
+      - http:
+          path: iwibot/router
+          method: post
+          resp: http
+          cors: true
+    package:
+      include:
+        - nodejs-router/lib/**/*
+        - nodejs-router/package.json
+        - nodejs-router/README.md
+
+  Semester:
+    name: Semester
+    runtime: nodejs:8
+    handler: nodejs-semester/lib/Semester.main
+    package:
+      include:
+        - nodejs-semester/lib/**/*
+        - nodejs-semester/package.json
+        - nodejs-semester/README.md
+
+  Sprechstunde:
+    name: Sprechstunde
+    runtime: nodejs:8
+    handler: nodejs-sprechstunde/lib/Sprechstunde.main
+    package:
+      include:
+        - nodejs-sprechstunde/lib/**/*
+        - nodejs-sprechstunde/package.json
+        - nodejs-sprechstunde/README.md
+
+  Timetable:
+    name: Timetable
+    runtime: nodejs:8
+    handler: nodejs-timetable/lib/Timetable.main
+    package:
+      include:
+        - nodejs-timetable/lib/**/*
+        - nodejs-timetable/package.json
+        - nodejs-timetable/README.md
+
+  Weather:
+    name: Weather
+    runtime: nodejs:8
+    handler: nodejs-weather/lib/Weather.main
+    bind:
+     - service:
+        name: weatherinsights
+        instance: weatherinsights
+    package:
+      include:
+        - nodejs-weather/lib/**/*
+        - nodejs-weather/package.json
+        - nodejs-weather/README.md
+
+  Wikipedia:
+    name: Wikipedia
+    runtime: nodejs:8
+    handler: nodejs-wikipedia/lib/Wikipedia.main
+    package:
+      include:
+        - nodejs-wikipedia/lib/**/*
+        - nodejs-wikipedia/package.json
+        - nodejs-wikipedia/README.md
+
+  Modulhandbuch:
+    name: Modulhandbuch
+    runtime: nodejs:8
+    handler: nodejs-modulhandbuch/lib/Modulhandbuch.main
+    package:
+      include:
+        - nodejs-modulhandbuch/lib/**/*
+        - nodejs-modulhandbuch/package.json
+        - nodejs-modulhandbuch/README.md
+
+  Template-PHP:
+    name: template-php
+    runtime: php:7.2
+    handler: template-php/lib/index.main
+    package:
+      include:
+        - template-php/lib/**/*
+        - template-php/vendor/**/*
+        - template-php/composer.json
+        - template-php/README.md
+
+  Template-Go:
+    name: template-go
+    runtime: binary
+    handler: template-go/bin/de.hska.iwibot.actions.go
+    package:
+      include:
+        - template-go/bin/de.hska.iwibot.actions.go
+
+  Template-Python:
+    name: template-python
+    runtime: python:3
+    handler: template-python/lib/__main__.main
+    plugins:
+      - serverless-python-requirements
+    package:
+      include:
+        - template-python/lib/**/*
+        - template-python/requirements.txt
+        - template-python/README.md
+      exlude:
+        - template-python/.requirements-cache/**

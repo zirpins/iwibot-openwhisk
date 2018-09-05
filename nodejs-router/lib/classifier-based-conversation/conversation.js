@@ -84,7 +84,7 @@ function classifyEntity(body, resolve, reject) {
     });
 }
 
-// Calls a mocked JS-Classifier that only is able to classify the test-sentences given in 'router_test.js'
+// Calls a mocked JS-Classifier that only is able to classify the test-sentences given in 'router-test.js'
 function callMockClassifier(body, resolve, reject) {
     var error = null;
     var response = mock.classify(body);

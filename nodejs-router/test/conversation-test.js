@@ -7,6 +7,9 @@
 
 var conversation = require('../lib/conversation');
 var request = require('request');
+var expect = require('chai').expect;
+var assert = require('assert');
+var log = require('../../utils/Logger');
 var actionUrl = process.env.ACTION_PREFIX_URL + '/router';
 var initParams = {
     semester: 5,

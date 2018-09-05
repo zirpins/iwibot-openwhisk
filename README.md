@@ -1,6 +1,8 @@
 ## Getting your environment set up
-1. If you have not installed and configured your Bluemix CLI already, follow the steps as shown [here](https://console.bluemix.net/openwhisk/learn/cli).
-2. Inside the Openwhisk folder, open your console and run `serverless deploy` to deploy all actions.
+1. If you have not installed and configured your Bluemix CLI already, follow the steps as shown [here](https://console.bluemix.net/openwhisk/learn/cli) or install the Bluemix CLI somehow else.
+2. Execute `npm install` int the root directory of the project to install the serverless dependency
+3. Run `npm run deploy` to deploy and `npm run undeploy` to undeploy the functions
+
 ### Working with the Serverless Framework
 For the deployment of the functions we are using the serverles framework. All information that are needed for the deployment are kept inside the  ***serverless.yml*** found at the root of the openwhisk folder.
 
@@ -46,7 +48,7 @@ In summary, till now, there are five templates:
 
 So you are not fixed to one language. If you wish to, you can change to Python or Java.
 
-For the usage of every template you need to make a **copy** of the template directory you wish and change it's name. If you like to develop in java just name the copy **java**-MyAction. Use always the template language as prefix of the name of your action. 
+For the usage of every template you need to make a **copy** of the template directory you wish and change it's name. If you like to develop in java just name the copy **java**-MyAction. **_Use always the template language as prefix of the name of your action._** 
 
 ## Use a Go Template  
 Just copy the `template-go` directory and name it `go-ActionName`.  
