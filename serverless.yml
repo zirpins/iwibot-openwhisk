@@ -9,26 +9,20 @@ package:
   exclude:
     - '**/*'
 
+triggers:
+
 plugins:
-  - serverless-openwhisk # for deploying to openwhisk provider
-  - serverless-build-plugin # for building nodejs actions
+  - iwibot-serverless-build-plugin # for building nodejs actions
+
 
 functions:
-  #Schwimmbad:
-  #  name: SchwimmbadTwi
-  #  runtime: java
-  #  handler: java-schwimmbad/target/Schwimmbad.jar:de.hska.iwibot.actions.java.Schwimmbad
-  #  annotations:
-  #    web-export: true
-  #  package:
-  #    artifact: java-schwimmbad/target/Schwimmbad.jar
-
-  Meal:
-    name: Meal
+  Joke:
+    name: Joke
     runtime: nodejs:8
-    handler: nodejs-meal/lib/Meal.main
+    handler: lib/Joke.main
     package:
+      name: nodejs-joke
       include:
-        - nodejs-meal/lib/**/*
-        - nodejs-meal/package.json
-        - nodejs-meal/README.md
+        - 'lib/**/*'
+        - package.json
+        - README.md

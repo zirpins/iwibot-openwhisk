@@ -1,3 +1,6 @@
+# configuration file for serverless-buil-plugin
+# this plugin enables nodejs specific bundling and other stuff
+
 method: bundle
 
 # babel
@@ -12,38 +15,39 @@ babel: false
 #
 # To minify each file.
 # Default is `false`.
-uglify: true
+uglify: false
 
 # uglifyModules
 #
 # `node_modules` will be uglified. Requires `uglify` to be `true`.
-uglifyModules: true
+uglifyModules: false
 
 # uglifySource
 #
 # source will be uglified. Requires `uglify` to be `true`.
-uglifySource: true
+uglifySource: false
 
 # sourceMaps
 #
 # Includes inline source maps for `babel` and `uglify`.
 # Default is `true`.
-sourceMaps: false
+sourceMaps: true
 
 # package the functions in parallel
-synchronous: false
+synchronous: true
 
 # functions
 #
 # Like the serverless.yml functions definition, but only for build options
 functions:
-  Meal:
+  Joke:
     # include
     #
     # An array of glob patterns to match against, including each file
-    #include:
-    #  - nodejs-joke/lib/**/*
-    #  - nodejs-joke/package.json
+    include:
+      - 'nodejs-joke/lib/**/*'
+      - nodejs-joke/package.json
+      - nodejs-joke/README.md
 
     # exclude
     #

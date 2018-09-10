@@ -14,7 +14,7 @@ plugins:
 
 functions:
   #Schwimmbad:
-  #  name: SchwimmbadTwi
+  #  name: Schwimmbad
   #  runtime: java
   #  handler: java-schwimmbad/target/Schwimmbad.jar:de.hska.iwibot.actions.java.Schwimmbad
   #  annotations:
