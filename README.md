@@ -1,6 +1,6 @@
 ## Getting your environment set up
-1. If you have not installed and configured your Bluemix CLI already, follow the steps as shown [here](https://console.bluemix.net/openwhisk/learn/cli) or install the Bluemix CLI somehow else.
-2. Execute `npm install` int the root directory of the project to install the serverless dependency
+1. If you have not installed and configured your Bluemix CLI already, follow the steps as shown [here](https://console.bluemix.net/openwhisk/learn/cli).
+2. Run `npm install` in the root directory of the project to install the serverless dependency
 3. Run `npm run deploy` to deploy and `npm run undeploy` to undeploy the functions
 
 ### Working with the Serverless Framework
