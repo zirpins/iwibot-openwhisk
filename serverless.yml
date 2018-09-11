@@ -14,8 +14,16 @@ triggers:
 plugins:
   - iwibot-serverless-build-plugin # for building nodejs actions
 
-
 functions:
+  #Schwimmbad:
+  #  name: Schwimmbad
+  #  runtime: java
+  #  handler: java-schwimmbad/target/Schwimmbad.jar:de.hska.iwibot.actions.java.Schwimmbad
+  #  annotations:
+  #    web-export: true
+  #  package:
+  #    artifact: java-schwimmbad/target/Schwimmbad.jar
+
   Joke:
     name: Joke
     runtime: nodejs:8
@@ -23,6 +31,154 @@ functions:
     package:
       name: nodejs-joke
       include:
-        - 'lib/**/*'
+        - lib/**/*
         - package.json
         - README.md
+
+  Bescheinigung:
+    name: Bescheinigung
+    runtime: nodejs:8
+    handler: lib/Bescheinigung.main
+    package:
+      name: nodejs-bescheinigung
+      include:
+        - lib/**/*
+        - package.json
+        - README.md
+
+  Meal:
+    name: Meal
+    runtime: nodejs:8
+    handler: lib/Meal.main
+    package:
+      name: nodejs-meal
+      include:
+        - lib/**/*
+        - package.json
+        - README.md
+
+  Router:
+    name: Router
+    runtime: nodejs:8
+    handler: lib/Router.main
+    bind:
+      - service:
+          name: conversation
+          instance: conversation
+    annotations:
+      web-export: true
+    events:
+      - http:
+          path: iwibot/router
+          method: post
+          resp: http
+          cors: true
+    package:
+      name: nodejs-router
+      include:
+        - lib/**/*
+        - package.json
+        - README.md
+
+  Semester:
+    name: Semester
+    runtime: nodejs:8
+    handler: lib/Semester.main
+    package:
+      name: nodejs-semester
+      include:
+        - lib/**/*
+        - package.json
+        - README.md
+
+  Sprechstunde:
+    name: Sprechstunde
+    runtime: nodejs:8
+    handler: lib/Sprechstunde.main
+    package:
+      name: nodejs-sprechstunde
+      include:
+        - lib/**/*
+        - package.json
+        - README.md
+
+  Timetable:
+    name: Timetable
+    runtime: nodejs:8
+    handler: lib/Timetable.main
+    package:
+      name: nodejs-timetable
+      include:
+        - lib/**/*
+        - package.json
+        - README.md
+
+  Weather:
+    name: Weather
+    runtime: nodejs:8
+    handler: lib/Weather.main
+    bind:
+     - service:
+        name: weatherinsights
+        instance: weatherinsights
+    package:
+      name: nodejs-weather
+      include:
+        - lib/**/*
+        - package.json
+        - README.md
+
+  Wikipedia:
+    name: Wikipedia
+    runtime: nodejs:8
+    handler: lib/Wikipedia.main
+    package:
+      name: nodejs-wikipedia
+      include:
+        - lib/**/*
+        - package.json
+        - README.md
+
+  Modulhandbuch:
+    name: Modulhandbuch
+    runtime: nodejs:8
+    handler: lib/Modulhandbuch.main
+    package:
+      name: nodejs-modulhandbuch
+      include:
+        - lib/**/*
+        - package.json
+        - README.md
+
+  Template-PHP:
+    name: template-php
+    runtime: php:7.2
+    handler: template-php/lib/index.main
+    package:
+      include:
+        - template-php/lib/**/*
+        - template-php/vendor/**/*
+        - template-php/composer.json
+        - template-php/README.md
+
+  Template-Go:
+    name: template-go
+    runtime: binary
+    handler: template-go/bin/de.hska.iwibot.actions.go
+    package:
+      include:
+        - template-go/bin/de.hska.iwibot.actions.go
+
+  Template-Python:
+    name: template-python
+    runtime: python:3
+    handler: template-python/lib/__main__.main
+    plugins:
+      - serverless-python-requirements
+    package:
+      include:
+        - template-python/lib/**/*
+        - template-python/requirements.txt
+        - template-python/README.md
+      exlude:
+        - template-python/.requirements-cache/**

@@ -44,10 +44,10 @@ functions:
     # include
     #
     # An array of glob patterns to match against, including each file
-    include:
-      - 'nodejs-joke/lib/**/*'
-      - nodejs-joke/package.json
-      - nodejs-joke/README.md
+    #include:
+    #  - 'nodejs-joke/lib/**/*'
+    #  - nodejs-joke/package.json
+    #  - nodejs-joke/README.md
 
     # exclude
     #

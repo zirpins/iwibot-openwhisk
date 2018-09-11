@@ -1,25 +1,42 @@
 #!/bin/bash
 #installs all packages for all openwhisk-actions
-rm -rf node_modules
 npm install > /dev/null
-cd ./openwhisk/joke
-rm -rf node_modules
+pwd
+cd nodejs-bescheinigung
 npm install > /dev/null
-cd ../meal
-rm -rf node_modules
+
+#cd ../nodejs-git/
+#npm install > /dev/null
+
+cd ../nodejs-joke/
 npm install > /dev/null
-cd ../router
-rm -rf node_modules
+
+#cd ../nodejs-login/
+#npm install > /dev/null
+
+cd ../nodejs-meal/
 npm install > /dev/null
-cd ../timetable
-rm -rf node_modules
+
+cd ../nodejs-modulhandbuch/
 npm install > /dev/null
-cd ../weather
-rm -rf node_modules
+
+#cd ../nodejs-navigation/
+#npm install > /dev/null
+
+cd ../nodejs-router/
 npm install > /dev/null
-cd ../login
-rm -rf node_modules
+
+cd ../nodejs-semester/
 npm install > /dev/null
-cd ../semester
-rm -rf node_modules
+
+cd ../nodejs-sprechstunde/
+npm install > /dev/null
+
+cd ../nodejs-timetable/
+npm install > /dev/null
+
+cd ../nodejs-weather/
+npm install > /dev/null
+
+cd ../nodejs-wikipedia/
 npm install > /dev/null
