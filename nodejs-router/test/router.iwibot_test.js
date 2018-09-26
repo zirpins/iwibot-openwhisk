@@ -1,10 +1,10 @@
 /**
  * Created by Armin on 11.06.2017.
  */
-var request = require('request');
-var actionUrl = process.env.ACTION_PREFIX_URL + '/router';
+let request = require('request');
+let actionUrl = process.env.ACTION_PREFIX_URL + '/router';
 
-var params = {
+let params = {
     semester: 5,
     courseOfStudies: 'INFB',
     context: { // If this test is not successful, try to get a new context! (Log and paste it here!)

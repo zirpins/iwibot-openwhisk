@@ -6,18 +6,24 @@
     "serverless",
     "openwhisk",
     "orchestration",
-    "composition"
+    "composition",
+    "iwibot"
   ],
   "scripts": {
-    "deploy": "serverless deploy",
-    "undeploy": "serverless remove",
-    "test": "bash print-test-banner.sh && find ./ -path ./node_modules -prune -o -name '*_test.js' | xargs mocha -R spec"
+    "test": "bash print-test-banner.sh && find ./ -path ./node_modules -prune -o -name '*.iwibot_test.js' | xargs mocha -R spec"
   },
   "devDependencies": {
+    "js-yaml": "^3.12.0",
+    "mocha": "^5.2.0",
+    "ncp": "^2.0.0",
+    "path": "^0.12.7",
     "serverless": "^1.30.3",
     "serverless-build-plugin": "^2.4.0-alpha.0",
     "serverless-openwhisk": ">=0.13.0",
-    "serverless-python-requirements": "^4.1.1"
+    "serverless-python-requirements": "^4.1.1",
+    "uglify-js": "^3.4.9",
+    "xargs": "^1.1.3",
+    "xml2js": "^0.4.19"
   },
   "dependencies": {}
 }

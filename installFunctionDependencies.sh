@@ -1,7 +1,7 @@
 #!/bin/bash
 #installs all packages for all openwhisk-actions
 npm install > /dev/null
-pwd
+
 cd nodejs-bescheinigung
 npm install > /dev/null
 
@@ -40,3 +40,8 @@ npm install > /dev/null
 
 cd ../nodejs-wikipedia/
 npm install > /dev/null
+
+cd ../template-nodejs/
+npm install > /dev/null
+
+cd ../

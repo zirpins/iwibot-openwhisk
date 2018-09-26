@@ -1,8 +1,8 @@
-var dispatcher = require('./dispatcher');
+let dispatcher = require('./dispatcher');
 // Use this for Bluemix Conversation-Service
-var conversation = require('./conversation');
+let conversation = require('./conversation');
 // Use this for own Python-Classifer Based Conversation
-//var conversation = require('./classifier-based-conversation/conversation');
+//let conversation = require('./classifier-based-conversation/conversation');
 
 
 function main(params) {
@@ -10,12 +10,12 @@ function main(params) {
     console.log("------Router started!------");
     console.log('Router Action Params: ' + JSON.stringify(params, null, 4));
 
-    var semester;
-    var courseOfStudies;
-    var position;
+    let semester;
+    let courseOfStudies;
+    let position;
 
     if ("onlyPositionDataFlag" in params) {
-        var positionObj = {
+        let positionObj = {
             latitude: params.position[1],
             longitude: params.position[0]
         };
@@ -69,8 +69,8 @@ function main(params) {
         }, function (reason) {
             console.log("Dispatcher Error: " + reason);
 
-            var response = {};
-            response.payload = reason.toString();
+            let response = {};
+            response.payload = 'Error occurred';
 
             return {
                 headers: {'Access-Control-Allow-Origin': '*', 'Content-Type': 'text/plain'},

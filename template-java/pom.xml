@@ -49,97 +49,54 @@
                     </execution>
                 </executions>
             </plugin>
-            <!--<plugin>
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-assembly-plugin</artifactId>
-            </plugin>-->
+                <artifactId>maven-shade-plugin</artifactId>
+            </plugin>
         </plugins>
 
         <pluginManagement>
             <plugins>
-
-                <!-- The Assembly Plugin for Maven is primarily intended to allow users to aggregate the project output
-                     along with its dependencies, modules, site documentation, and other files into a single distributable archive.
-                     Formats:
-                     - zip
-                     - tar
-                     - tar.gz (or tgz)
-                     - tar.bz2 (or tbz2)
-                     - tar.snappy
-                     - tar.xz (or txz)
-                     - jar      jar-with-dependencies
-                     - dir
-                     - war
-                     - and any other format that the ArchiveManager has been configured for
-                     -->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-assembly-plugin</artifactId>
-                    <version>3.1.0</version>
-                    <configuration>
-                        <descriptorRefs>
-                            <!--Predefined descriptors
-                                - bin
-                                    Produce binary distribution of the project (of the jar archive + README, LICENCE, NOTICE files in project root)
-                                    in three archive formats: tar.gz, tar.bz2, and zip
-                                - jar-with-dependencies
-                                    Produce JAR which contains the binary output of the project, along its the unpacked dependencies
-                                - src
-                                    Produce source archive with the contents of your project's /src directory structure
-                                - project
-                                    Produce archive with the whole project minus the /target directories
-                                     -->
-                            <!--<descriptorRef>bin</descriptorRef>-->
-                            <descriptorRef>jar-with-dependencies</descriptorRef>
-                            <!-- <descriptorRef>src</descriptorRef>
-                            <descriptorRef>project</descriptorRef> -->
-                        </descriptorRefs>
-                    </configuration>
+                    <artifactId>maven-shade-plugin</artifactId>
+                    <version>3.1.1</version>
                     <executions>
                         <execution>
-                            <id>make-assembly</id> <!-- this is used for inheritance merges -->
-                            <phase>package</phase> <!-- bind to the packaging phase -->
+                            <phase>package</phase>
                             <goals>
-                                <goal>single</goal>
+                                <goal>shade</goal>
                             </goals>
                         </execution>
                     </executions>
                 </plugin>
             </plugins>
         </pluginManagement>
-
-        <!-- Use properties with ${property.name} outside the pom in eg. application.properties files-->
-        <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-                <filtering>true</filtering>
-            </resource>
-            <resource>
-                <directory>src/test/resources</directory>
-                <filtering>true</filtering>
-            </resource>
-        </resources>
     </build>
 
     <properties>
-
         <!-- non-dependencies -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.8</java.version>
 
         <!-- commons and utils -->
+        <commons-lang3.version>3.5</commons-lang3.version>
+        <guava.version>21.0</guava.version>
 
         <!-- persistence -->
+        <validation-api.version>1.1.0.Final</validation-api.version>
+
+        <rest-assured.version>2.9.0</rest-assured.version>
 
         <!-- password validation -->
+        <passay.version>1.0</passay.version>
 
         <!-- maven plugins -->
         <maven-surefire-plugin.version>2.19.1</maven-surefire-plugin.version>
         <maven-compiler-plugin.version>3.6.1</maven-compiler-plugin.version>
+        <maven-resources-plugin.version>3.0.2</maven-resources-plugin.version>
 
-        <!-- test config-->
         <skip>true</skip>
-
     </properties>
 
 </project>

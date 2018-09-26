@@ -1,32 +1,32 @@
 service: IWIBotBackend
-
 provider:
   name: openwhisk
-
 package:
   name: IWIBot
   individually: true
   exclude:
     - '**/*'
-
-triggers:
-
+triggers: null
 plugins:
-  - iwibot-serverless-build-plugin # for building nodejs actions
-
+  - iwibot-serverless-build-plugin
 functions:
-  #Schwimmbad:
-  #  name: Schwimmbad
-  #  runtime: java
-  #  handler: java-schwimmbad/target/Schwimmbad.jar:de.hska.iwibot.actions.java.Schwimmbad
-  #  annotations:
-  #    web-export: true
-  #  package:
-  #    artifact: java-schwimmbad/target/Schwimmbad.jar
-
+  Schwimmbad:
+    enabled: false
+    name: Schwimmbad
+    runtime: java
+    handler: de.hska.iwibot.actions.java.Schwimmbad
+    package:
+      name: java-schwimmbad
+      include:
+        - src/**/*
+        - pom.xml
+        - README.md
+    annotations:
+      web-export: true
   Joke:
+    enabled: false
     name: Joke
-    runtime: nodejs:8
+    runtime: 'nodejs:8'
     handler: lib/Joke.main
     package:
       name: nodejs-joke
@@ -34,10 +34,10 @@ functions:
         - lib/**/*
         - package.json
         - README.md
-
   Bescheinigung:
+    enabled: false
     name: Bescheinigung
-    runtime: nodejs:8
+    runtime: 'nodejs:8'
     handler: lib/Bescheinigung.main
     package:
       name: nodejs-bescheinigung
@@ -45,10 +45,10 @@ functions:
         - lib/**/*
         - package.json
         - README.md
-
   Meal:
+    enabled: false
     name: Meal
-    runtime: nodejs:8
+    runtime: 'nodejs:8'
     handler: lib/Meal.main
     package:
       name: nodejs-meal
@@ -56,10 +56,10 @@ functions:
         - lib/**/*
         - package.json
         - README.md
-
   Router:
+    enabled: false
     name: Router
-    runtime: nodejs:8
+    runtime: 'nodejs:8'
     handler: lib/Router.main
     bind:
       - service:
@@ -69,9 +69,11 @@ functions:
       web-export: true
     events:
       - http:
-          path: iwibot/router
-          method: post
-          resp: http
+          action: Router
+          basepath: iwibot
+          relpath: router
+          operation: post
+          response-type: http
           cors: true
     package:
       name: nodejs-router
@@ -79,10 +81,10 @@ functions:
         - lib/**/*
         - package.json
         - README.md
-
   Semester:
+    enabled: false
     name: Semester
-    runtime: nodejs:8
+    runtime: 'nodejs:8'
     handler: lib/Semester.main
     package:
       name: nodejs-semester
@@ -90,10 +92,10 @@ functions:
         - lib/**/*
         - package.json
         - README.md
-
   Sprechstunde:
+    enabled: false
     name: Sprechstunde
-    runtime: nodejs:8
+    runtime: 'nodejs:8'
     handler: lib/Sprechstunde.main
     package:
       name: nodejs-sprechstunde
@@ -101,10 +103,10 @@ functions:
         - lib/**/*
         - package.json
         - README.md
-
   Timetable:
+    enabled: false
     name: Timetable
-    runtime: nodejs:8
+    runtime: 'nodejs:8'
     handler: lib/Timetable.main
     package:
       name: nodejs-timetable
@@ -112,25 +114,25 @@ functions:
         - lib/**/*
         - package.json
         - README.md
-
   Weather:
+    enabled: false
     name: Weather
-    runtime: nodejs:8
+    runtime: 'nodejs:8'
     handler: lib/Weather.main
     bind:
-     - service:
-        name: weatherinsights
-        instance: weatherinsights
+      - service:
+          name: weatherinsights
+          instance: weatherinsights
     package:
       name: nodejs-weather
       include:
         - lib/**/*
         - package.json
         - README.md
-
   Wikipedia:
+    enabled: false
     name: Wikipedia
-    runtime: nodejs:8
+    runtime: 'nodejs:8'
     handler: lib/Wikipedia.main
     package:
       name: nodejs-wikipedia
@@ -138,10 +140,10 @@ functions:
         - lib/**/*
         - package.json
         - README.md
-
   Modulhandbuch:
+    enabled: false
     name: Modulhandbuch
-    runtime: nodejs:8
+    runtime: 'nodejs:8'
     handler: lib/Modulhandbuch.main
     package:
       name: nodejs-modulhandbuch
@@ -149,36 +151,36 @@ functions:
         - lib/**/*
         - package.json
         - README.md
-
   Template-PHP:
-    name: template-php
-    runtime: php:7.2
-    handler: template-php/lib/index.main
+    enabled: false
+    name: Template-PHP
+    runtime: 'php:7.2'
+    handler: lib/index.main
     package:
+      name: template-php
       include:
-        - template-php/lib/**/*
-        - template-php/vendor/**/*
-        - template-php/composer.json
-        - template-php/README.md
-
+        - lib/**/*
+        - vendor/**/*
+        - composer.json
+        - README.md
   Template-Go:
-    name: template-go
-    runtime: binary
-    handler: template-go/bin/de.hska.iwibot.actions.go
+    enabled: false
+    name: Template-Go
+    runtime: blackbox
+    kind: go
+    handler: bin/exec
     package:
+      name: template-go
       include:
-        - template-go/bin/de.hska.iwibot.actions.go
-
+        - bin/exec
   Template-Python:
-    name: template-python
-    runtime: python:3
-    handler: template-python/lib/__main__.main
-    plugins:
-      - serverless-python-requirements
+    enabled: false
+    name: Template-Python
+    runtime: 'python:3'
+    handler: lib/__main__.main
     package:
+      name: template-python
       include:
-        - template-python/lib/**/*
-        - template-python/requirements.txt
-        - template-python/README.md
-      exlude:
-        - template-python/.requirements-cache/**
+        - lib/**/*
+        - requirements.txt
+        - README.md

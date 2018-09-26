@@ -3,15 +3,15 @@
  * These tests are mainly here to make sure that the conversation-procedure is executed correctly.
  */
 
-// =================================== Variables ===================================
+// =================================== letiables ===================================
 
-var conversation = require('../lib/conversation');
-var request = require('request');
-var expect = require('chai').expect;
-var assert = require('assert');
-var log = require('../../utils/Logger');
-var actionUrl = process.env.ACTION_PREFIX_URL + '/router';
-var initParams = {
+let conversation = require('../lib/conversation');
+let request = require('request');
+let expect = require('chai').expect;
+let assert = require('assert');
+let log = require('../../utils/Logger');
+let actionUrl = process.env.ACTION_PREFIX_URL + '/router';
+let initParams = {
     semester: 5,
     courseOfStudies: 'INFB',
     context: {
@@ -29,20 +29,20 @@ var initParams = {
         }
     }
 };
-var responseBodyParsingError = "'responseBody' could not be parsed. Maybe it already has been parsed. Please check in tests for conversation-service";
-var genericError = conversation.genericErrorMessage;
+let responseBodyParsingError = "'responseBody' could not be parsed. Maybe it already has been parsed. Please check in tests for conversation-service";
+let genericError = conversation.genericErrorMessage;
 
 // =================================== Router sentences ===================================
 
-var jokeSentence =                    'Erzähle mir einen Witz !';
-var weatherSentence =                 'Wie wird das Wetter ?';
-var timetableSentenceAll =            'Was steht am Donnerstag auf dem Stundenplan?';
-var timetableSentenceOnlyIntent =     'Was steht auf dem Stundenplan?';
-var timetableSentenceEntity =         'Mittwoch';
-var mealSentenceAll =                 'Was gibt es als Wahlessen 1?';
-var mealSentenceOnlyIntent =          'Was gibt es heute zu Essen?';
-var mealSentenceEntity =              'Aktionstheke';
-var garbageSentence =                 'Skidoodle';
+let jokeSentence =                    'Erzähle mir einen Witz !';
+let weatherSentence =                 'Wie wird das Wetter ?';
+let timetableSentenceAll =            'Was steht am Donnerstag auf dem Stundenplan?';
+let timetableSentenceOnlyIntent =     'Was steht auf dem Stundenplan?';
+let timetableSentenceEntity =         'Mittwoch';
+let mealSentenceAll =                 'Was gibt es als Wahlessen 1?';
+let mealSentenceOnlyIntent =          'Was gibt es heute zu Essen?';
+let mealSentenceEntity =              'Aktionstheke';
+let garbageSentence =                 'Skidoodle';
 
 console.log("=========================================================================================================");
 console.log("                                         Start Conversation-Tests                                        ");
@@ -73,7 +73,7 @@ module.exports = {
     'Conversation Action Test (joke)' : function (test) {
         test.expect(2);
         console.log("\n ~~~~~ Run Conversation Action Test (joke) ~~~~~ \n")
-        var options = buildRequestOptions(null, jokeSentence);
+        let options = buildRequestOptions(null, jokeSentence);
         request.post( options,
             function (err, response, body) {
                 body = JSON.parse(body);
@@ -91,7 +91,7 @@ module.exports = {
     'Conversation Action Test (weather)' : function (test) {
         test.expect(2);
         console.log("\n ~~~~~ Run Conversation Action Test (weather) ~~~~~ \n")
-        var options = buildRequestOptions(null, weatherSentence);
+        let options = buildRequestOptions(null, weatherSentence);
         request.post( options,
             function (err, response, body) {
                 body = JSON.parse(body);
@@ -109,7 +109,7 @@ module.exports = {
     'Conversation Action Test (timetable, one sentence)' : function (test) {
         test.expect(2);
         console.log("\n ~~~~~ Run Conversation Action Test (timetable, one sentence) ~~~~~ \n")
-        var options = buildRequestOptions(null, timetableSentenceAll);
+        let options = buildRequestOptions(null, timetableSentenceAll);
         request.post( options,
             function (err, response, body) {
                 body = JSON.parse(body);
@@ -125,7 +125,7 @@ module.exports = {
         console.log("\n ~~~~~ Run Conversation Action Test (timetable, two sentences) ~~~~~ \n");
 
         // ~~~~~~ First Request ~~~~~~
-        var options = buildRequestOptions(null, timetableSentenceOnlyIntent);
+        let options = buildRequestOptions(null, timetableSentenceOnlyIntent);
         request.post( options,
             function (err, response, body) {
                 body = JSON.parse(body);
@@ -134,7 +134,7 @@ module.exports = {
                 test.ok(body.payload.indexOf('Error') === -1 && body.payload.indexOf('error') === -1);
 
                 // ~~~~~~ Second Request ~~~~~~
-                var optionsStageTwo = buildRequestOptions(body, timetableSentenceEntity);
+                let optionsStageTwo = buildRequestOptions(body, timetableSentenceEntity);
                 request.post( optionsStageTwo,
                     function (err, response, body) {
                         consoleLog(body, err, response);
@@ -152,7 +152,7 @@ module.exports = {
         console.log("\n ~~~~~ Run Conversation Action Test (timetable, abort timetable) ~~~~~ \n");
 
         // ~~~~~~ First Request ~~~~~~
-        var options = buildRequestOptions(null, timetableSentenceOnlyIntent);
+        let options = buildRequestOptions(null, timetableSentenceOnlyIntent);
         request.post( options,
             function (err, response, body) {
                 body = JSON.parse(body);
@@ -161,7 +161,7 @@ module.exports = {
                 test.ok(body.payload.indexOf('Error') === -1 && body.payload.indexOf('error') === -1);
 
                 // ~~~~~~ Second Request ~~~~~~
-                var optionsStageTwo = buildRequestOptions(body, jokeSentence);
+                let optionsStageTwo = buildRequestOptions(body, jokeSentence);
                 request.post( optionsStageTwo,
                     function (err, response, body) {
                         consoleLog(body, err, response);
@@ -179,7 +179,7 @@ module.exports = {
         console.log("\n ~~~~~ Run Conversation Action Test (timetable, abort timetable, check if priorIntent is deleted) ~~~~~ \n")
 
         // ~~~~~~ First Request ~~~~~~
-        var options = buildRequestOptions(null, timetableSentenceOnlyIntent);
+        let options = buildRequestOptions(null, timetableSentenceOnlyIntent);
         request.post( options,
             function (err, response, body) {
                 body = JSON.parse(body);
@@ -188,7 +188,7 @@ module.exports = {
                 test.ok(body.payload.indexOf('Error') === -1 && body.payload.indexOf('error') === -1);
 
                 // ~~~~~~ Second Request ~~~~~~
-                var optionsStageTwo = buildRequestOptions(body, jokeSentence);
+                let optionsStageTwo = buildRequestOptions(body, jokeSentence);
                 request.post( optionsStageTwo,
                     function (err, response, body) {
                         consoleLog(body, err, response);
@@ -197,7 +197,7 @@ module.exports = {
                         test.ok(body.payload.indexOf('Error') === -1 && body.payload.indexOf('error') === -1);
                         
                         // ~~~~~~ Third Request ~~~~~~
-                        var optionsStageTwo = buildRequestOptions(body, timetableSentenceEntity);
+                        let optionsStageTwo = buildRequestOptions(body, timetableSentenceEntity);
                         request.post( optionsStageTwo,
                             function (err, response, body) {
                                 consoleLog(body, err, response);
@@ -216,7 +216,7 @@ module.exports = {
         console.log("\n ~~~~~ Run Conversation Action Test (timetable, three sentences) ~~~~~ \n")
 
         // ~~~~~~ First Request ~~~~~~
-        var options = buildRequestOptions(null, timetableSentenceOnlyIntent);
+        let options = buildRequestOptions(null, timetableSentenceOnlyIntent);
         request.post( options,
             function (err, response, body) {
                 body = JSON.parse(body);
@@ -225,7 +225,7 @@ module.exports = {
                 test.ok(body.payload.indexOf('Error') === -1 && body.payload.indexOf('error') === -1);
 
                 // ~~~~~~ Second Request ~~~~~~
-                var optionsStageTwo = buildRequestOptions(body, garbageSentence);
+                let optionsStageTwo = buildRequestOptions(body, garbageSentence);
                 request.post( optionsStageTwo,
                     function (err, response, body) {
                         consoleLog(body, err, response);
@@ -234,7 +234,7 @@ module.exports = {
                         test.ok(body.payload.indexOf('Error') === -1 && body.payload.indexOf('error') === -1);
                         
                         // ~~~~~~ Third Request ~~~~~~
-                        var optionsStageTwo = buildRequestOptions(body, timetableSentenceEntity);
+                        let optionsStageTwo = buildRequestOptions(body, timetableSentenceEntity);
                         request.post( optionsStageTwo,
                             function (err, response, body) {
                                 consoleLog(body, err, response);
@@ -254,7 +254,7 @@ module.exports = {
     'Conversation Action Test (meal, one sentence)' : function (test) {
         test.expect(2);
         console.log("\n ~~~~~ Run Conversation Action Test (meal, one sentence) ~~~~~ \n")
-        var options = buildRequestOptions(null, mealSentenceAll);
+        let options = buildRequestOptions(null, mealSentenceAll);
         request.post( options,
             function (err, response, body) {
                 body = JSON.parse(body);
@@ -270,7 +270,7 @@ module.exports = {
         console.log("\n ~~~~~ Run Conversation Action Test (meal, two sentences) ~~~~~ \n")
 
         // ~~~~~~ First Request ~~~~~~
-        var options = buildRequestOptions(null, mealSentenceOnlyIntent);
+        let options = buildRequestOptions(null, mealSentenceOnlyIntent);
         request.post( options,
             function (err, response, body) {
                 body = JSON.parse(body);
@@ -279,7 +279,7 @@ module.exports = {
                 test.ok(body.payload.indexOf('Error') === -1 && body.payload.indexOf('error') === -1);
 
                 // ~~~~~~ Second Request ~~~~~~
-                var optionsStageTwo = buildRequestOptions(body, mealSentenceEntity);
+                let optionsStageTwo = buildRequestOptions(body, mealSentenceEntity);
                 request.post( optionsStageTwo,
                     function (err, response, body) {
                         consoleLog(body, err, response);
@@ -297,7 +297,7 @@ module.exports = {
         console.log("\n ~~~~~ Run Conversation Action Test (timetable, three sentences) ~~~~~ \n")
 
         // ~~~~~~ First Request ~~~~~~
-        var options = buildRequestOptions(null, mealSentenceOnlyIntent);
+        let options = buildRequestOptions(null, mealSentenceOnlyIntent);
         request.post( options,
             function (err, response, body) {
                 body = JSON.parse(body);
@@ -306,7 +306,7 @@ module.exports = {
                 test.ok(body.payload.indexOf('Error') === -1 && body.payload.indexOf('error') === -1);
 
                 // ~~~~~~ Second Request ~~~~~~
-                var optionsStageTwo = buildRequestOptions(body, garbageSentence);
+                let optionsStageTwo = buildRequestOptions(body, garbageSentence);
                 request.post( optionsStageTwo,
                     function (err, response, body) {
                         consoleLog(body, err, response);
@@ -315,7 +315,7 @@ module.exports = {
                         test.ok(body.payload.indexOf('Error') === -1 && body.payload.indexOf('error') === -1);
                         
                         // ~~~~~~ Third Request ~~~~~~
-                        var optionsStageTwo = buildRequestOptions(body, mealSentenceEntity);
+                        let optionsStageTwo = buildRequestOptions(body, mealSentenceEntity);
                         request.post( optionsStageTwo,
                             function (err, response, body) {
                                 consoleLog(body, err, response);
@@ -333,8 +333,8 @@ module.exports = {
 // =================================== Utilities for build test-options ===================================
 
 function buildRequestOptions(responseBody, sentence) {
-    var body = newRequestBody(responseBody, sentence);
-    var options = {
+    let body = newRequestBody(responseBody, sentence);
+    let options = {
         headers: {'content-type': 'text/plain'},
         url: actionUrl,
         body: JSON.stringify(body)
@@ -351,7 +351,7 @@ function newRequestBody(responseBody, sentence) {
     if (requestBody) {
         responseBody = JSON.parse(responseBody);
     }
-    var requestBody = initParams;
+    let requestBody = initParams;
     if(responseBody && responseBody.context) {
         requestBody.context = responseBody.context;
     }

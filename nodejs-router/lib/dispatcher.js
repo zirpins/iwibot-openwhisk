@@ -1,21 +1,21 @@
-var openwhisk = require('openwhisk');
+let openwhisk = require('openwhisk');
 
 function dispatch(response) {
     console.log("------Dispatcher started!------");
     console.log('skip: ' + JSON.stringify(response, null, 4));
-    var context = response.context;
-    var responseObject = {};
-    if ("positionFlag" in response.output) {
+    let context = response.context;
+    let responseObject = {};
+    if (response.output && "positionFlag" in response.output) {
 		responseObject.positionFlag = response.output.positionFlag;
-	}	
-	if ("actionToInvoke" in response.output) {
+	}
+
+	if (response.output && "actionToInvoke" in response.output) {
         console.log("Action to be invoked: " + response.output.actionToInvoke);
         console.log("Context : " + JSON.stringify(context, null, 4));
-        var params = response;
+        let params = response;
         //const name = response.intents[0].intent;
-        var name = response.output.actionToInvoke;
-        var blocking = true, result = true;
-
+        let name = response.output.actionToInvoke;
+        let blocking = true, result = true;
         return action(name, blocking, result, params).then(function (response) {
             console.log("openwhisk response: " + JSON.stringify(response, null, 4));
             return new Promise(function (resolve) {
@@ -39,7 +39,7 @@ function dispatch(response) {
 }
 
 function action(name, blocking, result, params) {
-    var ow = openwhisk();
+    let ow = openwhisk();
     return ow.actions.invoke({name, blocking, result, params}); // jshint ignore:line
 }
 

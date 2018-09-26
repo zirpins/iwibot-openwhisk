@@ -2,21 +2,20 @@
  * ========================================== !CAUTION! ==========================================
  * Mock-Classifier-Rest-Service for testing changes in the conversation-logic without having
  * a deployed Classifier-Rest-Service. Do not use this thing for anything but testing-purposes!
- * This classifier only accepts the test-sentences used by router-test.js
+ * This classifier only accepts the test-sentences used by router.iwibot_test.js
  * ========================================== !CAUTION! ==========================================
  */
 
-var debug = require('./conversationDebugPrints');
+let debug = require('./conversationDebugPrints');
 
 exports.classify = function(request) {
     request = JSON.parse(request);
-    var sentence = request.sentence;
-    var context = request.context;
+    let sentence = request.sentence;
+    let context = request.context;
     request.params.context = context;
-    var intent = "";
-    var entity = "";
-    var intent = "";
-    var priorIntent = "";
+    let entity = "";
+    let intent = "";
+    let priorIntent = "";
     if(sentence && sentence.indexOf('timetable thursday') !== -1) {
         priorIntent = "Timetables";
         entity = "Donnerstag"
@@ -27,7 +26,7 @@ exports.classify = function(request) {
         intent = "Joke";
         entity = "";
     }
-    var response = buildMockResponse(intent, priorIntent, entity, context, request.params, request.init);
+    let response = buildMockResponse(intent, priorIntent, entity, context, request.params, request.init);
     debug.debugClassify(request, response);
     return response;
 }
@@ -43,7 +42,7 @@ function buildMockResponse(intent, priorIntent,  entity, context, params, init) 
             "intent": undefined
         };
     }
-    var response = {
+    let response = {
         "classifications": {
                 "intent": intent,
                 "entity": entity
