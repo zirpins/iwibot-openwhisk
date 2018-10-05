@@ -164,7 +164,7 @@ functions:
         - composer.json
         - README.md
   Template-Go:
-    enabled: false
+    enabled: true
     name: Template-Go
     runtime: blackbox
     kind: go
