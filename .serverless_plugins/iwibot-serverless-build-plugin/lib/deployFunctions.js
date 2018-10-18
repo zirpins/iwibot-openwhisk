@@ -16,7 +16,7 @@ const child_process_1 = require("child_process");
 const path_1 = require("path");
 function deployFunctions() {
     this.serverless.cli.log('Deploying Functions...');
-    filterActions.bind(this)().then(names => {
+    return filterActions.bind(this)().then(names => {
         return deployActions.bind(this)(names);
     });
 }
@@ -56,29 +56,48 @@ function convertAnnotations(annotations) {
         return { key: ano, value: annotations[ano] };
     });
 }
-function getArtifactZip(runtime, name) {
-    const artifactPath = getArtifactPath.bind(this)(runtime, name);
+function getArtifactZip(fnConfig) {
+    const artifactPath = getArtifactPath.bind(this)(fnConfig);
     const readFile = Bluebird.promisify(fs.readFile);
     return readFile(artifactPath).then(zipBuffer => JSZip.loadAsync(zipBuffer));
 }
-function getArtifactPath(runtime, name) {
-    const ext = runtime.indexOf('java') > -1 ? '.jar' : '.zip';
-    return path_1.join(path_1.resolve('.serverless'), name + ext);
+function getArtifactPath(fnConfig) {
+    let name = fnConfig.name;
+    // Prefix the artifact path with the package name or use the default package path
+    if (fnConfig.package && fnConfig.package.name) {
+        name = path_1.join(fnConfig.package.name, fnConfig.name);
+    }
+    const ext = fnConfig.runtime.indexOf('java') > -1 ? '.jar' : '.zip';
+    return path_1.resolve('.serverless', name + ext);
 }
 function deployActions(names) {
     const functions = this.serverless.service.functions;
     return Bluebird.all(names.map(name => {
-        return new Promise(((resolveProm, reject) => {
+        return new Promise((resolveProm, reject) => {
             if (functions[name].enabled) {
                 if (functions[name].runtime === 'blackbox') {
                     // handle binary actions
-                    const res = child_process_1.spawn('ibmcloud', ['fn', 'action', 'update', name, '--native', path_1.join(path_1.resolve('.serverless'), name + '.zip')]);
+                    let zipPath = '';
+                    let tmpName = name;
+                    if (functions[name].package && functions[name].package.name) {
+                        zipPath = path_1.resolve('.serverless', functions[name].package.name, functions[name].name + '.zip');
+                        if (this.serverless.service.deployTest) {
+                            tmpName = this.serverless.service.package.testname + '/' + functions[name].name;
+                        }
+                        else {
+                            tmpName = functions[name].package.name + '/' + functions[name].name;
+                        }
+                    }
+                    else {
+                        zipPath = path_1.resolve('.serverless', functions[name].name + '.zip');
+                    }
+                    const res = child_process_1.spawn('ibmcloud', ['fn', 'action', 'update', tmpName, '--native', zipPath]);
                     res.stdout.on('data', (data) => {
                         console.log('' + data);
                     });
                     res.on('close', (code) => {
                         if (code === 0) {
-                            this.logger.log('binary function created');
+                            this.serverless.cli.log('binary function created');
                             resolveProm();
                         }
                         else {
@@ -94,16 +113,17 @@ function deployActions(names) {
                 }
             }
             else {
-                this.logger.message('Function', c.reset.bold(name) + c.red(' is excluded from deployment'));
+                if (this.options.verbose) {
+                    this.logger.message('Function', c.reset.bold(name) + c.red(' is excluded from deployment'));
+                }
                 resolveProm();
             }
-        }));
+        });
     }));
 }
 function deployFunctionHandler(functionHandler) {
     return __awaiter(this, void 0, void 0, function* () {
         const props = yield this.serverless.getProvider('openwhisk').props();
-        functionHandler.actionName = functionHandler.name;
         functionHandler.namespace = props['namespace'];
         functionHandler.overwrite = true;
         functionHandler.action = {
@@ -114,25 +134,30 @@ function deployFunctionHandler(functionHandler) {
             limits: {},
         };
         try {
-            const zip = yield getArtifactZip.bind(this)(functionHandler.runtime, functionHandler.name);
+            const zip = yield getArtifactZip.bind(this)(functionHandler);
             const buf = yield zip.generateAsync({ type: 'nodebuffer', compression: 'DEFLATE', compressionOptions: { level: 9 } });
             functionHandler.action.exec.code = buf.toString('base64');
         }
         catch (e) {
             throw new Error(e);
         }
-        if (functionHandler.annotations) {
+        if (this.serverless.service.deployTest) {
+            functionHandler.name = this.serverless.service.package.testname.concat('/').concat(functionHandler.name);
+            Object.assign(functionHandler.action, { annotations: convertAnnotations({ 'web-export': true }) });
+        }
+        else if (functionHandler.package && functionHandler.package.name) {
+            functionHandler.name = functionHandler.package.name + '/' + functionHandler.name;
+        }
+        if (!this.serverless.service.deployTest && functionHandler.annotations) {
             Object.assign(functionHandler.action, { annotations: convertAnnotations(functionHandler.annotations) });
         }
         return this.provider.client().then(ow => {
             if (this.options.verbose) {
-                this.serverless.cli.log(`Deploying Function: ${functionHandler.actionName}`);
+                this.serverless.cli.log(`Deploying Function: ${functionHandler.name}`);
             }
             return ow.actions.update(functionHandler)
                 .then(() => {
-                if (this.options.verbose) {
-                    this.serverless.cli.log(`Deployed Function: ${functionHandler.actionName}`);
-                }
+                this.serverless.cli.log(`Deployed Function: ${functionHandler.name}`);
             })
                 .catch(err => {
                 throw new this.serverless.classes.Error(`Failed to deploy function (${JSON.stringify(functionHandler, null, 2)}) due to error: ${err.message}`);

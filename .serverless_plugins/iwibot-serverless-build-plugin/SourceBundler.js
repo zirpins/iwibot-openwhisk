@@ -39,7 +39,6 @@ class SourceBundler {
                  *  A relative path to the servicePath
                  *  @example ./functions/test/handler.js
                  */
-                debugger;
                 const relPath = path_1.join(filePath.split(this.servicePath)[1]).replace(/^\/|\/$/g, '');
                 const testPattern = (pattern) => (lutils_1.isRegExp(pattern)
                     ? pattern.test(relPath)
@@ -64,7 +63,6 @@ class SourceBundler {
                 this.logger.source({ filePath: relPath });
             });
             function filter(dirPath, stats) {
-                debugger;
                 if (dirPath.endsWith('node_modules') || dirPath.endsWith(path_1.sep + 'test') || dirPath.endsWith('.serverless')) {
                     return false;
                 }

@@ -30,8 +30,12 @@ function getWskProps() {
 function getWskEnvProps() {
     const envProps = {};
     ENV_PARAMS.forEach((envName) => {
-        if (process.env[envName])
+        if (envName === 'NAMESPACE') {
+            envProps[envName.toLowerCase()] = process.env['BLUEMIX_ORGANIZATION'].concat('_').concat(process.env['BLUEMIX_SPACE']);
+        }
+        else if (process.env[envName]) {
             envProps[envName.slice(3).toLowerCase()] = process.env[envName];
+        }
     });
     return envProps;
 }
