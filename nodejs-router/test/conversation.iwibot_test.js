@@ -54,7 +54,7 @@ console.log("===================================================================
 // =================================== Tests ===================================
 
 describe('Conversation Test Cases', () =>{
-    beforeEach(() => {
+    before(() => {
         return new Promise((resolve, reject) => {
             let options = buildRequestOptions(params, jokeSentence);
             request.post( options,
