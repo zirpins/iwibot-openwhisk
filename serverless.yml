@@ -3,6 +3,8 @@ provider:
   name: openwhisk
 package:
   name: IWIBot
+  testname: IWIBotTest
+  testbasepath: /iwibotTest
   individually: true
   exclude:
     - '**/*'
@@ -15,21 +17,21 @@ functions:
     name: Schwimmbad
     runtime: java
     handler: de.hska.iwibot.actions.java.Schwimmbad
+    relpath: java-schwimmbad
     package:
-      name: java-schwimmbad
+      name: IWIBot
       include:
         - src/**/*
         - pom.xml
         - README.md
-    annotations:
-      web-export: true
   Joke:
     enabled: false
     name: Joke
     runtime: 'nodejs:8'
     handler: lib/Joke.main
+    relpath: nodejs-joke
     package:
-      name: nodejs-joke
+      name: IWIBot
       include:
         - lib/**/*
         - package.json
@@ -39,8 +41,9 @@ functions:
     name: Bescheinigung
     runtime: 'nodejs:8'
     handler: lib/Bescheinigung.main
+    relpath: nodejs-bescheinigung
     package:
-      name: nodejs-bescheinigung
+      name: IWIBot
       include:
         - lib/**/*
         - package.json
@@ -50,8 +53,9 @@ functions:
     name: Meal
     runtime: 'nodejs:8'
     handler: lib/Meal.main
+    relpath: nodejs-meal
     package:
-      name: nodejs-meal
+      name: IWIBot
       include:
         - lib/**/*
         - package.json
@@ -61,22 +65,23 @@ functions:
     name: Router
     runtime: 'nodejs:8'
     handler: lib/Router.main
+    relpath: nodejs-router
     bind:
       - service:
-          name: conversation
+          type: conversation
+          key: Credentials-1
           instance: conversation
     annotations:
       web-export: true
     events:
       - http:
-          action: Router
-          basepath: iwibot
-          relpath: router
+          basepath: /iwibot
+          relpath: /router
           operation: post
-          response-type: http
+          responsetype: http
           cors: true
     package:
-      name: nodejs-router
+      name: IWIBot
       include:
         - lib/**/*
         - package.json
@@ -86,8 +91,9 @@ functions:
     name: Semester
     runtime: 'nodejs:8'
     handler: lib/Semester.main
+    relpath: nodejs-semester
     package:
-      name: nodejs-semester
+      name: IWIBot
       include:
         - lib/**/*
         - package.json
@@ -97,8 +103,9 @@ functions:
     name: Sprechstunde
     runtime: 'nodejs:8'
     handler: lib/Sprechstunde.main
+    relpath: nodejs-sprechstunde
     package:
-      name: nodejs-sprechstunde
+      name: IWIBot
       include:
         - lib/**/*
         - package.json
@@ -108,8 +115,9 @@ functions:
     name: Timetable
     runtime: 'nodejs:8'
     handler: lib/Timetable.main
+    relpath: nodejs-timetable
     package:
-      name: nodejs-timetable
+      name: IWIBot
       include:
         - lib/**/*
         - package.json
@@ -119,12 +127,14 @@ functions:
     name: Weather
     runtime: 'nodejs:8'
     handler: lib/Weather.main
+    relpath: nodejs-weather
     bind:
       - service:
-          name: weatherinsights
+          type: weatherinsights
+          key: Credentials-1
           instance: weatherinsights
     package:
-      name: nodejs-weather
+      name: IWIBot
       include:
         - lib/**/*
         - package.json
@@ -134,8 +144,9 @@ functions:
     name: Wikipedia
     runtime: 'nodejs:8'
     handler: lib/Wikipedia.main
+    relpath: nodejs-wikipedia
     package:
-      name: nodejs-wikipedia
+      name: IWIBot
       include:
         - lib/**/*
         - package.json
@@ -145,8 +156,9 @@ functions:
     name: Modulhandbuch
     runtime: 'nodejs:8'
     handler: lib/Modulhandbuch.main
+    relpath: nodejs-modulhandbuch
     package:
-      name: nodejs-modulhandbuch
+      name: IWIBot
       include:
         - lib/**/*
         - package.json
@@ -156,21 +168,23 @@ functions:
     name: Template-PHP
     runtime: 'php:7.2'
     handler: lib/index.main
+    relpath: template-php
     package:
-      name: template-php
+      name: IWIBot
       include:
         - lib/**/*
         - vendor/**/*
         - composer.json
         - README.md
   Template-Go:
-    enabled: true
+    enabled: false
     name: Template-Go
     runtime: blackbox
     kind: go
     handler: bin/exec
+    relpath: template-go
     package:
-      name: template-go
+      name: IWIBot
       include:
         - bin/exec
   Template-Python:
@@ -178,9 +192,35 @@ functions:
     name: Template-Python
     runtime: 'python:3'
     handler: lib/__main__.main
+    module: template-python
+    relpath: template-python
     package:
-      name: template-python
+      name: IWIBot
       include:
         - lib/**/*
         - requirements.txt
+        - README.md
+  Template-Java:
+    enabled: false
+    name: Template-Java
+    runtime: java
+    handler: de.hska.iwibot.actions.java.Template
+    relpath: template-java
+    package:
+      name: IWIBot
+      include:
+        - src/**/*
+        - pom.xml
+        - README.md
+  Template-Nodejs:
+    enabled: false
+    name: Template-Nodejs
+    runtime: 'nodejs:8'
+    handler: lib/Test.main
+    relpath: template-nodejs
+    package:
+      name: IWIBot
+      include:
+        - lib/**/*
+        - package.json
         - README.md

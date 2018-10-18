@@ -10,10 +10,14 @@
     "iwibot"
   ],
   "scripts": {
-    "test": "bash print-test-banner.sh && find ./ -path ./node_modules -prune -o -name '*.iwibot_test.js' | xargs mocha -R spec"
+    "test": "bash print-test-banner.sh && find ./ -path ./node_modules -prune -o -name '*.iwibot_test.js' | xargs mocha --timeout 5000 -R spec",
+    "package": "./node_modules/serverless/bin/serverless iwibot package"
   },
   "devDependencies": {
+    "assert": "^1.4.1",
+    "bluebird": "^3.5.2",
     "js-yaml": "^3.12.0",
+    "lodash": "^4.17.11",
     "mocha": "^5.2.0",
     "ncp": "^2.0.0",
     "path": "^0.12.7",
