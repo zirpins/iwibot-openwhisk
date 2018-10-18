@@ -8,27 +8,16 @@
 let conversation = require('../lib/conversation');
 let request = require('request');
 let expect = require('chai').expect;
-let assert = require('assert');
+let assert = require('chai').assert;
 let log = require('../../utils/Logger');
 let actionUrl = process.env.ACTION_PREFIX_URL + '/router';
-let initParams = {
-    semester: 5,
-    courseOfStudies: 'INFB',
-    context: {
-        conversation_id: 'edde5df3-a4d2-4875-ada7-ca95dec02daf',
-        priorIntent:{
-            intent : 'greeting'
-        },
-        system: {
-            dialog_stack:[{dialog_node: 'root'}],
-            dialog_turn_counter: 1,
-            dialog_request_counter: 1,
-            _node_output_map:{
-                "Willkommen":[0]
-            }
-        }
-    }
+
+let params = {
+
 };
+
+let firstParams = { body: { conInit: true }, url: actionUrl};
+
 let responseBodyParsingError = "'responseBody' could not be parsed. Maybe it already has been parsed. Please check in tests for conversation-service";
 let genericError = conversation.genericErrorMessage;
 
@@ -64,306 +53,191 @@ console.log("===================================================================
 
 // =================================== Tests ===================================
 
-module.exports = {
-
+describe('Conversation Test Cases', () =>{
+    beforeEach(() => {
+        return new Promise((resolve, reject) => {
+            let options = buildRequestOptions(params, jokeSentence);
+            request.post( options,
+                function (err, response, body) {
+                    body = JSON.parse(body);
+                    assert.isOk(body.payload);
+                    assert.isOk(body.context);
+                    params.context = body.context;
+                    resolve()
+                });
+        });
+    });
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // :::::::::::::::::::::::::::::::::::::::::: Joke ::::::::::::::::::::::::::::::::::::::::::
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    'Conversation Action Test (joke)' : function (test) {
-        test.expect(2);
-        console.log("\n ~~~~~ Run Conversation Action Test (joke) ~~~~~ \n")
-        let options = buildRequestOptions(null, jokeSentence);
+    it('responds a joke', (done) => {
+        let options = buildRequestOptions(params, jokeSentence);
         request.post( options,
             function (err, response, body) {
                 body = JSON.parse(body);
-                consoleLog(body, err, response);
-                test.ok(typeof body.payload === 'string');
-                test.ok(body.payload.indexOf('Error') === -1 && body.payload.indexOf('error') === -1);
-                test.done();
-        });
-    },
+                //log(response, body, err, options.url);
+                assert.isOk(body.payload);
+                assert(body.payload.indexOf('Error') === -1 && body.payload.indexOf('error') === -1);
+                done();
+            });        
+    });
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // ::::::::::::::::::::::::::::::::::::::::: Weather ::::::::::::::::::::::::::::::::::::::::
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    'Conversation Action Test (weather)' : function (test) {
-        test.expect(2);
-        console.log("\n ~~~~~ Run Conversation Action Test (weather) ~~~~~ \n")
-        let options = buildRequestOptions(null, weatherSentence);
+    it('returns the weather', (done) => {
+        let options = buildRequestOptions(params, weatherSentence);
         request.post( options,
             function (err, response, body) {
                 body = JSON.parse(body);
-                consoleLog(body, err, response);
-                test.ok(typeof body.payload === 'string');
-                test.ok(body.payload.indexOf('Error') === -1 && body.payload.indexOf('error') === -1);
-                test.done();
-        });
-    },
+                //log(response, body, err, options.url);
+                assert.isOk(body.payload);
+                assert(body.payload.indexOf('Error') === -1 && body.payload.indexOf('error') === -1);
+                done();
+            });  
+    });
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // ::::::::::::::::::::::::::::::::::::::: Timetables :::::::::::::::::::::::::::::::::::::::
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    'Conversation Action Test (timetable, one sentence)' : function (test) {
-        test.expect(2);
-        console.log("\n ~~~~~ Run Conversation Action Test (timetable, one sentence) ~~~~~ \n")
-        let options = buildRequestOptions(null, timetableSentenceAll);
-        request.post( options,
-            function (err, response, body) {
-                body = JSON.parse(body);
-                consoleLog(body, err, response);
-                test.ok(typeof body.payload === 'string');
-                test.ok(body.payload.indexOf('Error') === -1 && body.payload.indexOf('error') === -1);
-                test.done();
-        });
-    },
-
-    'Conversation Action Test (timetable, two sentences)' : function (test) {
-        test.expect(4);
-        console.log("\n ~~~~~ Run Conversation Action Test (timetable, two sentences) ~~~~~ \n");
-
-        // ~~~~~~ First Request ~~~~~~
-        let options = buildRequestOptions(null, timetableSentenceOnlyIntent);
-        request.post( options,
-            function (err, response, body) {
-                body = JSON.parse(body);
-                consoleLog(body, err, response);
-                test.ok(typeof body.payload === 'string');
-                test.ok(body.payload.indexOf('Error') === -1 && body.payload.indexOf('error') === -1);
-
-                // ~~~~~~ Second Request ~~~~~~
-                let optionsStageTwo = buildRequestOptions(body, timetableSentenceEntity);
-                request.post( optionsStageTwo,
-                    function (err, response, body) {
-                        consoleLog(body, err, response);
-                        body = JSON.parse(body);
-                        test.ok(typeof body.payload === 'string');
-                        test.ok(body.payload.indexOf('Error') === -1 && body.payload.indexOf('error') === -1);
-                        
-                        test.done();
+    context('Timetables Test Cases', () => {
+        it('responds with a timetable; single-stage', (done) => {
+            let options = buildRequestOptions(params, timetableSentenceAll);
+            request.post( options,
+                function (err, response, body) {
+                    body = JSON.parse(body);
+                    //log(response, body, err, options.url);
+                    assert.isOk(body.payload);
+                    assert(body.payload.indexOf('Error') === -1 && body.payload.indexOf('error') === -1);
+                    done();
                 });
-        });
-    },
+        })
 
-    'Conversation Action Test (timetable, abort timetable)' : function (test) {
-        test.expect(4);
-        console.log("\n ~~~~~ Run Conversation Action Test (timetable, abort timetable) ~~~~~ \n");
+        it('responds with a timetable: two-stage', (done) => {
+            // ~~~~~~ First Request ~~~~~~
+            let options = buildRequestOptions(params, timetableSentenceOnlyIntent);
+            request.post( options,
+                function (err, response, body) {
+                    body = JSON.parse(body);
+                    assert.isOk(body.payload);
+                    assert(body.payload.indexOf('Error') === -1 && body.payload.indexOf('error') === -1);
 
-        // ~~~~~~ First Request ~~~~~~
-        let options = buildRequestOptions(null, timetableSentenceOnlyIntent);
-        request.post( options,
-            function (err, response, body) {
-                body = JSON.parse(body);
-                consoleLog(body, err, response);
-                test.ok(typeof body.payload === 'string');
-                test.ok(body.payload.indexOf('Error') === -1 && body.payload.indexOf('error') === -1);
-
-                // ~~~~~~ Second Request ~~~~~~
-                let optionsStageTwo = buildRequestOptions(body, jokeSentence);
-                request.post( optionsStageTwo,
-                    function (err, response, body) {
-                        consoleLog(body, err, response);
-                        body = JSON.parse(body);
-                        test.ok(typeof body.payload === 'string');
-                        test.ok(body.payload.indexOf('Error') === -1 && body.payload.indexOf('error') === -1);
-                        
-                        test.done();
-                });
-        });
-    },
-
-    /*'Conversation Action Test (timetable, abort timetable, check if priorIntent is deleted)' : function (test) {
-        test.expect(7);
-        console.log("\n ~~~~~ Run Conversation Action Test (timetable, abort timetable, check if priorIntent is deleted) ~~~~~ \n")
-
-        // ~~~~~~ First Request ~~~~~~
-        let options = buildRequestOptions(null, timetableSentenceOnlyIntent);
-        request.post( options,
-            function (err, response, body) {
-                body = JSON.parse(body);
-                consoleLog(body, err, response);
-                test.ok(typeof body.payload === 'string');
-                test.ok(body.payload.indexOf('Error') === -1 && body.payload.indexOf('error') === -1);
-
-                // ~~~~~~ Second Request ~~~~~~
-                let optionsStageTwo = buildRequestOptions(body, jokeSentence);
-                request.post( optionsStageTwo,
-                    function (err, response, body) {
-                        consoleLog(body, err, response);
-                        body = JSON.parse(body);
-                        test.ok(typeof body.payload === 'string');
-                        test.ok(body.payload.indexOf('Error') === -1 && body.payload.indexOf('error') === -1);
-                        
-                        // ~~~~~~ Third Request ~~~~~~
-                        let optionsStageTwo = buildRequestOptions(body, timetableSentenceEntity);
-                        request.post( optionsStageTwo,
-                            function (err, response, body) {
-                                consoleLog(body, err, response);
-                                body = JSON.parse(body);
-                                test.ok(typeof body.payload === 'string');
-                                test.ok(body.payload.indexOf('Error') === -1 && body.payload.indexOf('error') === -1);
-                                test.ok(body.payload.indexOf(genericError) !== -1 );
-                                test.done();
+                    // ~~~~~~ Second Request ~~~~~~
+                    let optionsStageTwo = buildRequestOptions(body, timetableSentenceEntity);
+                    request.post( optionsStageTwo,
+                        function (err, response, body) {
+                            //log(response, body, err, options.url);
+                            body = JSON.parse(body);
+                            assert.isOk(body.payload);
+                            assert(body.payload.indexOf('Error') === -1 && body.payload.indexOf('error') === -1);
+                            done();
                         });
                 });
         });
-    },*/
 
-    'Conversation Action Test (timetable, three sentences)' : function (test) {
-        test.expect(6);
-        console.log("\n ~~~~~ Run Conversation Action Test (timetable, three sentences) ~~~~~ \n")
+        it('responds with a timetable: three-stage', (done) => {
+            // ~~~~~~ First Request ~~~~~~
+            let options = buildRequestOptions(params, timetableSentenceOnlyIntent);
+            request.post( options,
+                function (err, response, body) {
 
-        // ~~~~~~ First Request ~~~~~~
-        let options = buildRequestOptions(null, timetableSentenceOnlyIntent);
-        request.post( options,
-            function (err, response, body) {
-                body = JSON.parse(body);
-                consoleLog(body, err, response);
-                test.ok(typeof body.payload === 'string');
-                test.ok(body.payload.indexOf('Error') === -1 && body.payload.indexOf('error') === -1);
+                    body = JSON.parse(body);
+                    assert.isOk(body.payload);
+                    assert(body.payload.indexOf('Error') === -1 && body.payload.indexOf('error') === -1);
 
-                // ~~~~~~ Second Request ~~~~~~
-                let optionsStageTwo = buildRequestOptions(body, garbageSentence);
-                request.post( optionsStageTwo,
-                    function (err, response, body) {
-                        consoleLog(body, err, response);
-                        body = JSON.parse(body);
-                        test.ok(typeof body.payload === 'string');
-                        test.ok(body.payload.indexOf('Error') === -1 && body.payload.indexOf('error') === -1);
-                        
-                        // ~~~~~~ Third Request ~~~~~~
-                        let optionsStageTwo = buildRequestOptions(body, timetableSentenceEntity);
-                        request.post( optionsStageTwo,
-                            function (err, response, body) {
-                                consoleLog(body, err, response);
-                                body = JSON.parse(body);
-                                test.ok(typeof body.payload === 'string');
-                                test.ok(body.payload.indexOf('Error') === -1 && body.payload.indexOf('error') === -1);
-                                test.done();
+                    // ~~~~~~ Second Request ~~~~~~
+                    let optionsStageTwo = buildRequestOptions(body, garbageSentence);
+                    request.post( optionsStageTwo,
+                        function (err, response, body) {
+
+                            body = JSON.parse(body);
+                            assert.isOk(body.payload);
+                            assert(body.payload.indexOf('Error') === -1 && body.payload.indexOf('error') === -1);
+
+                            // ~~~~~~ Third Request ~~~~~~
+                            let optionsStageTwo = buildRequestOptions(body, timetableSentenceEntity);
+                            request.post( optionsStageTwo,
+                                function (err, response, body) {
+
+                                    body = JSON.parse(body);
+                                    assert.isOk(body.payload);
+                                    assert(body.payload.indexOf('Error') === -1 && body.payload.indexOf('error') === -1);
+                                    done();
+                                });
                         });
                 });
-        });
-    },
+        })
+    });
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // :::::::::::::::::::::::::::::::::::::::::: Meal ::::::::::::::::::::::::::::::::::::::::::
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    context('Meal Test Cases', (done) => {
 
-    'Conversation Action Test (meal, one sentence)' : function (test) {
-        test.expect(2);
-        console.log("\n ~~~~~ Run Conversation Action Test (meal, one sentence) ~~~~~ \n")
-        let options = buildRequestOptions(null, mealSentenceAll);
-        request.post( options,
-            function (err, response, body) {
-                body = JSON.parse(body);
-                consoleLog(body, err, response);
-                test.ok(typeof body.payload === 'string');
-                test.ok(body.payload.indexOf('Error') === -1 && body.payload.indexOf('error') === -1);
-                test.done();
-        });
-    },
-
-    'Conversation Action Test (meal, two sentences)' : function (test) {
-        test.expect(4);
-        console.log("\n ~~~~~ Run Conversation Action Test (meal, two sentences) ~~~~~ \n")
-
-        // ~~~~~~ First Request ~~~~~~
-        let options = buildRequestOptions(null, mealSentenceOnlyIntent);
-        request.post( options,
-            function (err, response, body) {
-                body = JSON.parse(body);
-                consoleLog(body, err, response);
-                test.ok(typeof body.payload === 'string');
-                test.ok(body.payload.indexOf('Error') === -1 && body.payload.indexOf('error') === -1);
-
-                // ~~~~~~ Second Request ~~~~~~
-                let optionsStageTwo = buildRequestOptions(body, mealSentenceEntity);
-                request.post( optionsStageTwo,
-                    function (err, response, body) {
-                        consoleLog(body, err, response);
-                        body = JSON.parse(body);
-                        test.ok(typeof body.payload === 'string');
-                        test.ok(body.payload.indexOf('Error') === -1 && body.payload.indexOf('error') === -1);
-                        
-                        test.done();
+        it('responds a meal: single-stage', (done) => {
+            let options = buildRequestOptions(params, mealSentenceAll);
+            request.post( options,
+                function (err, response, body) {
+                    body = JSON.parse(body);
+                    assert.isOk(body.payload);
+                    assert(body.payload.indexOf('Error') === -1 && body.payload.indexOf('error') === -1);
+                    done();
                 });
         });
-    },
-    
-    'Conversation Action Test (timetable, three sentences)' : function (test) {
-        test.expect(6);
-        console.log("\n ~~~~~ Run Conversation Action Test (timetable, three sentences) ~~~~~ \n")
 
-        // ~~~~~~ First Request ~~~~~~
-        let options = buildRequestOptions(null, mealSentenceOnlyIntent);
-        request.post( options,
-            function (err, response, body) {
-                body = JSON.parse(body);
-                consoleLog(body, err, response);
-                test.ok(typeof body.payload === 'string');
-                test.ok(body.payload.indexOf('Error') === -1 && body.payload.indexOf('error') === -1);
+        it('responds a meal: two-stage', (done) => {
+            let options = buildRequestOptions(params, mealSentenceOnlyIntent);
+            request.post( options,
+                function (err, response, body) {
 
-                // ~~~~~~ Second Request ~~~~~~
-                let optionsStageTwo = buildRequestOptions(body, garbageSentence);
-                request.post( optionsStageTwo,
-                    function (err, response, body) {
-                        consoleLog(body, err, response);
-                        body = JSON.parse(body);
-                        test.ok(typeof body.payload === 'string');
-                        test.ok(body.payload.indexOf('Error') === -1 && body.payload.indexOf('error') === -1);
-                        
-                        // ~~~~~~ Third Request ~~~~~~
-                        let optionsStageTwo = buildRequestOptions(body, mealSentenceEntity);
-                        request.post( optionsStageTwo,
-                            function (err, response, body) {
-                                consoleLog(body, err, response);
-                                body = JSON.parse(body);
-                                test.ok(typeof body.payload === 'string');
-                                test.ok(body.payload.indexOf('Error') === -1 && body.payload.indexOf('error') === -1);
-                                test.done();
+                    body = JSON.parse(body);
+                    assert.isOk(body.payload);
+                    assert(body.payload.indexOf('Error') === -1 && body.payload.indexOf('error') === -1);
+
+                    // ~~~~~~ Second Request ~~~~~~
+                    let optionsStageTwo = buildRequestOptions(body, mealSentenceEntity);
+                    request.post( optionsStageTwo,
+                        function (err, response, body) {
+
+                            body = JSON.parse(body);
+                            assert.isOk(body.payload);
+                            assert(body.payload.indexOf('Error') === -1 && body.payload.indexOf('error') === -1);
+                            done();
                         });
                 });
-        });
-    }
-};
+        })
+    })
+
+});
 
 
 // =================================== Utilities for build test-options ===================================
 
-function buildRequestOptions(responseBody, sentence) {
-    let body = newRequestBody(responseBody, sentence);
-    let options = {
+function buildRequestOptions(params, sentence) {
+    let body = newRequestBody(params, sentence);
+    return {
         headers: {'content-type': 'text/plain'},
         url: actionUrl,
         body: JSON.stringify(body)
     };
-    return options
 }
 
 /**
  * Build a new param-object with the old Response-Body's context and the requested sentence
- * @param {any} responseBody
+ * @param {any} params
  * @param {string} sentence
  */
-function newRequestBody(responseBody, sentence) {
-    if (requestBody) {
-        responseBody = JSON.parse(responseBody);
-    }
-    let requestBody = initParams;
-    if(responseBody && responseBody.context) {
-        requestBody.context = responseBody.context;
+function newRequestBody(params, sentence) {
+    let requestBody = {};
+    if(params && params.context) {
+        requestBody.context = params.context;
+    } else {
+        requestBody = firstParams;
     }
     if(sentence) {
         requestBody.payload = sentence;
+    } else {
+        requestBody.payload = 'placeholder sentence'
     }
-    console.log('\n Request-Body \n' + JSON.stringify(requestBody, null, 4));
     return requestBody;
-}
-
-function consoleLog(body, err, response) {
-    console.log('\n Body:       \n' + JSON.stringify(body, null, 4));
-    console.log('\n Error:      \n' + err);
-    console.log('\n Response:   \n' + JSON.stringify(response, null, 4));
 }

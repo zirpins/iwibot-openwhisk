@@ -1,19 +1,18 @@
-var ConversationV1 = require('watson-developer-cloud/conversation/v1');
+const AssistantV1 = require('watson-developer-cloud/assistant/v1');
 
 exports.sendMessage = function sendMessage(init, params) {
     console.log("------Conversation Started!------");
     console.log('Conversation Params: ' + JSON.stringify(params, null, 2));
 
-    var conversation = new ConversationV1({
+    const conversation = new AssistantV1({
         username: params.__bx_creds.conversation.username,
         password: params.__bx_creds.conversation.password,
         url: params.__bx_creds.conversation.url,
-        path: {workspace_id: "49d2a377-47a0-42aa-9649-cbce4637b624"},
-        version_date: "2018-24-05"
+        version: "2018-14-10"
     });
 
     return new Promise(function (resolve, reject) {
-        var options = init ? { workspace_id: "49d2a377-47a0-42aa-9649-cbce4637b624" } :
+        const options = init ? { workspace_id: "49d2a377-47a0-42aa-9649-cbce4637b624" } :
             {
                 input: {
                     text: params.payload.toString()

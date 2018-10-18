@@ -1,16 +1,16 @@
-var request = require('request');
-var url = 'https://www.iwi.hs-karlsruhe.de/Intranetaccess/REST/timetable/INFB/0/5?format=json';
-var today = new Date();
-var currentDay = parseInt(today.getDay());
-var weekdays = new Array(7);
-weekdays[0] = "dienstag";
-weekdays[1] = "mittwoch";
-weekdays[2] = "donnerstag";
-weekdays[3] = "freitag";
-weekdays[4] = "samstag";
-weekdays[5] = "sonntag";
-weekdays[6] = "montag";
-var currentDayString = weekdays[currentDay];
+const request = require('request');
+let url = 'https://www.iwi.hs-karlsruhe.de/Intranetaccess/REST/timetable/INFB/0/5?format=json';
+const today = new Date();
+const currentDay = parseInt(today.getDay());
+const weekdays = new Array(7);
+weekdays[0] = "montag";
+weekdays[1] = "dienstag";
+weekdays[2] = "mittwoch";
+weekdays[3] = "donnerstag";
+weekdays[4] = "freitag";
+weekdays[5] = "samstag";
+weekdays[6] = "sonntag";
+const currentDayString = weekdays[(currentDay-1)%7];
 
 function main(params) {
     console.log("------Timetable Action started!------");
@@ -18,49 +18,55 @@ function main(params) {
     console.log("Timetable Semester: " + params.semester);
     console.log("Day: " + currentDay);
     console.log("DayString: " + currentDayString);
-
+    let semester = -1;
+    let courseOfStudies = 'INFB';
+    let entities = [{value: 'Montag'}]
     if("__ow_body" in params) { // For testing this action!!
-        Object.assign(params, JSON.parse(params.__ow_body));
+        semester = JSON.parse(params.__ow_body).semester;
+        courseOfStudies = JSON.parse(params.__ow_body).courseOfStudies;
+        entities = JSON.parse(params.__ow_body).entities
+    } else {
+        semester = params.semester;
+        courseOfStudies = params.courseOfStudies;
+        entities = params.entities;
     }
-
+    console.log('~~~> semester ' + semester + ' courseOfStudies ' + courseOfStudies)
     return new Promise(function (resolve, reject) {
-        var resultObject = {};
-        var dayIndex = convertDayToHskaDay(currentDay), dayValue = currentDayString;
+        const resultObject = {};
 
-        if (params.semester !== undefined && params.courseOfStudies !== undefined) {
-            url = 'https://www.iwi.hs-karlsruhe.de/Intranetaccess/REST/timetable/' + params.courseOfStudies + '/0/' + params.semester + '?format=json';
+        if (semester && courseOfStudies) {
+            url = 'https://www.iwi.hs-karlsruhe.de/Intranetaccess/REST/timetable/' + courseOfStudies + '/0/' + semester + '?format=json';
         } else {
             console.log("Es wurde kein Semester angegeben");
-            resultObject.payload = "Es wurde kein Semester angegeben!";
-            resolve(resultObject);
+            resolve({ payload: "Es wurde kein Semester angegeben!"});
         }
 
         request({
             url: url
         }, function (error, response, body) {
-            var ulStart = '<ul>';
+            let ulStart = '<ul>';
 
             function getWeekdayIndex() {
-                return weekdays.indexOf(params.entities[0].value.toLowerCase());
+                return weekdays.indexOf(entities[0].value.toLowerCase());
             }
 
             if (!error && response.statusCode === 200) {
-                var responseObject = JSON.parse(body);
+                let responseObject = JSON.parse(body);
 
                 console.log('Response Object: ' + JSON.stringify(responseObject, null, 4));
-                var entries = responseObject.timetables[getWeekdayIndex()].entries;
+                const entries = responseObject.timetables[getWeekdayIndex()].entries;
 
                 if (!entries || entries.length === 0) {
                     resolve({"payload": "Heute findet keine Vorlesung statt."});
                 }
-                for (var i = 0; entries.length > i; i++) {
-                    var startTime = entries[i].startTime;
-                    var endTime = entries[i].endTime;
-                    var locationsLength = entries[i].locations.length;
-                    var locationsUl = '<ul>';
+                for (let i = 0; entries.length > i; i++) {
+                    let startTime = entries[i].startTime;
+                    let endTime = entries[i].endTime;
+                    let locationsLength = entries[i].locations.length;
+                    let locationsUl = '<ul>';
 
-                    for (var j = 0; locationsLength > j; j++) {
-                        var aliasName = '';
+                    for (let j = 0; locationsLength > j; j++) {
+                        let aliasName = '';
                         if (entries[i].locations[j].aliasName) {
                             aliasName = entries[i].locations[j].aliasName;
                         }
@@ -88,8 +94,8 @@ function main(params) {
 }
 
 function convertToHoursMins(value) {
-    var h = Math.floor(value / 60);
-    var m = value % 60;
+    let h = Math.floor(value / 60);
+    let m = value % 60;
     h = h < 10 ? '0' + h : h;
     m = m < 10 ? '0' + m : m;
     return h + ':' + m;

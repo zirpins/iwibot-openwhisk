@@ -3,26 +3,26 @@
  */
 let request = require('request');
 let expect = require('chai').expect;
-let assert = require('assert');
+let assert = require('chai').assert;
 let log = require('../../utils/Logger');
 let actionUrl = process.env.ACTION_PREFIX_URL + '/semester';
 let params = {
     context: {
         semester: 1,
-        courseOfStudies: 'INFB'
+        courseOfStudies: "INFB"
     }
 };
 
 describe("Semester Action Test", function () {
-    it("returns the semester plan", function () {
+    it("returns the semester plan", (done) => {
         request.post({
-            headers: {'content-type': 'application/json'},
+            headers: {'content-type': 'text/plain'},
             url: actionUrl,
             body: JSON.stringify(params)
         }, function (err, response, body) {
-
-            let result = response.statusCode == 204 || response.statusCode == 200;
-            assert.isTrue(result);
+            assert.isOk(JSON.parse(body).payload, 'no payload');
+            assert.isOk(JSON.parse(body).htmlText, 'no htmlText');
+            done()
         });
-    });
+    })
 });

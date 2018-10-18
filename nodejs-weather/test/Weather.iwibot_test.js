@@ -3,7 +3,7 @@
  */
 let request = require('request');
 let expect = require('chai').expect;
-let assert = require('assert');
+let assert = require('chai').assert;
 let log = require('../../utils/Logger');
 let actionUrl = process.env.ACTION_PREFIX_URL + '/weather';
 
@@ -21,8 +21,8 @@ describe("Weather Action Test", function () {
         }, function (err, response, body) {
             body = JSON.parse(body);
 
-            assert.isTrue('payload' in body);
-            assert.isTrue('htmlText' in body);
+            assert(body.payload);
+            assert(body.htmlText);
         });
     });
 });
