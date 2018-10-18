@@ -12,13 +12,13 @@ exports.sendMessage = function sendMessage(init, params) {
     });
 
     return new Promise(function (resolve, reject) {
-        const options = init ? { workspace_id: "49d2a377-47a0-42aa-9649-cbce4637b624" } :
+        const options = init ? { workspace_id: "a2f68213-7d89-4622-b185-89b4f5ef6cf5" } :
             {
                 input: {
                     text: params.payload.toString()
                 },
                 context: params.context,
-                workspace_id: "49d2a377-47a0-42aa-9649-cbce4637b624"
+                workspace_id: "a2f68213-7d89-4622-b185-89b4f5ef6cf5"
             };
         conversation.message(options, function (err, response) {
             if (err) {
