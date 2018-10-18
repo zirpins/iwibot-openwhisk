@@ -6,4 +6,4 @@ ibmcloud login -a "$API_ENDPOINT" -u "$BLUEMIX_USERNAME" -p "$BLUEMIX_PASSWORD" 
 # target org in cf
 ibmcloud target --cf "$BLUEMIX_ORGANIZATION"
 # install wsk plugin for the bluemix cli
-ibmcloud plugin install cloud-functions -r IBM Cloud
+ibmcloud plugin install cloud-functions

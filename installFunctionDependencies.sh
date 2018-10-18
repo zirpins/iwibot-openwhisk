@@ -1,5 +1,5 @@
 #!/bin/bash
-#installs all packages for all openwhisk-actions
+# installs all node_modules for all functions
 npm install > /dev/null
 
 cd nodejs-bescheinigung
