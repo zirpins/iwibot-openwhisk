@@ -1,8 +1,11 @@
 ## Getting your environment set up
 1. If you have not installed and configured your Bluemix CLI already, follow the steps as shown [here](https://console.bluemix.net/openwhisk/learn/cli).
 2. Run `npm install` in the root directory of the project to install the serverless dependency
-3. Copy the `template.local.env`, or respective on windows the `windows-template.local.env`, and paste it named `local.env`. Then add your IBM credentials to the `local.env`. Optionally add another organization and space.
-4. Login to your IBMCloud-CLI on linux via `./bx_authenticate.sh` and on windows via `call bx_authenticate.bat`.
+3. Copy the `template.local.env` on linux and paste it named `local.env`. On Windows copy the `windows-template.local.cmd` and paste it as `local.cmd`.  
+Then add your IBM credentials to the `local.env` or `local.cmd`. Optionally add another organization and space.
+4. Login to your IBMCloud-CLI on linux via `./bx_authenticate.sh` and on windows via `bx_authenticate.bat`.
+5. Follow the instructions in the [iwibot-watson-assistant](https://github.com/HSKA-IWI-VSYS/iwibot-watson-assistant) repository
+6. Take the `workspace_id` from the previous step and paste it as value of the `workspace_id` parameter of the `Router` function. 
 
 The commands shown bellow need the `serverless` framework to be installed globally, otherwise you need to execute the appropriate commands through the `package.js` scripts section.  
 To install `serverless` globally type `sudo npm i -g serverless`.

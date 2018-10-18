@@ -61,18 +61,20 @@ functions:
         - package.json
         - README.md
   Router:
-    enabled: false
+    enabled: true
     name: Router
     runtime: 'nodejs:8'
     handler: lib/Router.main
     relpath: nodejs-router
+    parameters:
+      workspace_id: 'a2f68213-7d89-4622-b185-89b4f5ef6cf5'
+    annotations:
+      web-export: true
     bind:
       - service:
           type: conversation
           key: Credentials-1
           instance: conversation
-    annotations:
-      web-export: true
     events:
       - http:
           basepath: /iwibot
