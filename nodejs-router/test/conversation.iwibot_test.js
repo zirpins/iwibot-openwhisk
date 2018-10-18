@@ -100,7 +100,7 @@ describe('Conversation Test Cases', () =>{
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // ::::::::::::::::::::::::::::::::::::::: Timetables :::::::::::::::::::::::::::::::::::::::
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    context('Timetables Test Cases', () => {
+    context('Timetable Test Cases', () => {
         it('responds with a timetable; single-stage', (done) => {
             let options = buildRequestOptions(params, timetableSentenceAll);
             request.post( options,
