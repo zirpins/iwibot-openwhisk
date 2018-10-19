@@ -1,47 +1,47 @@
 @ECHO OFF
 :: installs all node_modules for all functions
-npm install > NUL
+call npm install
 
 cd nodejs-bescheinigung
-npm install > NUL
+call npm install
 
-::cd ../nodejs-git/
-::npm install > NUL
+::cd ..\nodejs-git\
+::call npm install
 
-cd ../nodejs-joke/
-npm install > NUL
+cd ..\nodejs-joke\
+call npm install
 
-::cd ../nodejs-login/
-::npm install > NUL
+::cd ..\nodejs-login\
+::call npm install
 
-cd ../nodejs-meal/
-npm install > NUL
+cd ..\nodejs-meal\
+call npm install
 
-cd ../nodejs-modulhandbuch/
-npm install > NUL
+cd ..\nodejs-modulhandbuch\
+call npm install
 
-::cd ../nodejs-navigation/
-::npm install > NUL
+::cd ..\nodejs-navigation\
+::call npm install
 
-cd ../nodejs-router/
-npm install > NUL
+cd ..\nodejs-router\
+call npm install
 
-cd ../nodejs-semester/
-npm install > NUL
+cd ..\nodejs-semester\
+call npm install
 
-cd ../nodejs-sprechstunde/
-npm install > NUL
+cd ..\nodejs-sprechstunde\
+call npm install
 
-cd ../nodejs-timetable/
-npm install > NUL
+cd ..\nodejs-timetable\
+call npm install
 
-cd ../nodejs-weather/
-npm install > NUL
+cd ..\nodejs-weather\
+call npm install
 
-cd ../nodejs-wikipedia/
-npm install > NUL
+cd ..\nodejs-wikipedia\
+call npm install
 
-cd ../template-nodejs/
-npm install > NUL
+cd ..\template-nodejs\
+call npm install
 
-cd ../
+cd ..\
