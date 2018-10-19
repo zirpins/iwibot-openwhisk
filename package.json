@@ -11,7 +11,7 @@
   ],
   "scripts": {
     "test": "bash print-test-banner.sh && node ./node_modules/mocha/bin/mocha './**/*.iwibot_test.js' --timeout 5000 -R spec",
-    "test:win": "print-test-banner.cmd && node ./node_modules/mocha/bin/mocha './**/*.iwibot_test.js' --timeout 5000 -R spec"
+    "test:win": "call local.cmd && print-test-banner.bat && node .\\node_modules\\mocha\\bin\\mocha \".\\**\\*.iwibot_test.js\" --timeout 5000"
   },
   "devDependencies": {
     "assert": "^1.4.1",
