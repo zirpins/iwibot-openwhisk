@@ -111,7 +111,7 @@ class ServerlessBuildPlugin {
                         // modify package.json values
                         const packageJson = require(path_1.join(this.servicePath, fnPathName, 'package.json'));
                         packageJson.name = name;
-                        packageJson.main = path_1.join('lib', name + '.js');
+                        packageJson.main = 'lib/' + name + '.js';
                         yield fs_extra_1.writeFile(path_1.join(this.servicePath, fnPathName, 'package.json'), JSON.stringify(packageJson, null, 2));
                         // rename files
                         fs_extra_1.renameSync(path_1.join(this.servicePath, fnPathName, 'lib', 'Test.js'), path_1.join(this.servicePath, fnPathName, 'lib', name + '.js'));
