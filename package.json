@@ -10,8 +10,8 @@
     "iwibot"
   ],
   "scripts": {
-    "test": "bash print-test-banner.sh && find ./ -path ./node_modules -prune -o -name '*.iwibot_test.js' | xargs mocha --timeout 5000 -R spec",
-    "package": "./node_modules/serverless/bin/serverless iwibot package"
+    "test": "bash print-test-banner.sh && node ./node_modules/mocha/bin/mocha './**/*.iwibot_test.js' --timeout 5000 -R spec",
+    "test:win": "print-test-banner.cmd && node ./node_modules/mocha/bin/mocha './**/*.iwibot_test.js' --timeout 5000 -R spec"
   },
   "devDependencies": {
     "assert": "^1.4.1",
