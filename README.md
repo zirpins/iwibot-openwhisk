@@ -8,7 +8,7 @@ Then add your IBM credentials to the `local.env` or `local.cmd`. Optionally add 
 ## Prerequisites for deployment
 Some Openwhisk-Functions need certain services in order to work properly.
   
-E.g the Router-Functions needs the Watson-Assistent Service to work. Before deploying the functions we have to make sure that the required services are created and set up correctly. Later when we set up the environment we bind the services to the functions, so that they have the credentials to work with them.
+E.g the Router-Functions needs the Watson-Assistent Service to work. Before deploying the functions we have to make sure that the required services are created and set up correctly. After the functions are deployed we bind the services to the functions, so that they have the credentials to work with them.
 
 **Infos service bindings:**  
 The `service-type` is equivalent with the `type` property in the `serverless.yml` file.  
