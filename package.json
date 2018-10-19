@@ -16,6 +16,7 @@
   "devDependencies": {
     "assert": "^1.4.1",
     "bluebird": "^3.5.2",
+    "iwibot-serverless-build-plugin": "github:HSKA-IWI-VSYS/iwibot-serverless-build-plugin#release",
     "js-yaml": "^3.12.0",
     "lodash": "^4.17.11",
     "mocha": "^5.2.0",
