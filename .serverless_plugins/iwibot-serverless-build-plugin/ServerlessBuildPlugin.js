@@ -117,7 +117,7 @@ class ServerlessBuildPlugin {
                         fs_extra_1.renameSync(path_1.join(this.servicePath, fnPathName, 'lib', 'Test.js'), path_1.join(this.servicePath, fnPathName, 'lib', name + '.js'));
                         fs_extra_1.renameSync(path_1.join(this.servicePath, fnPathName, 'test', 'Test.iwibot_test.js'), path_1.join(this.servicePath, fnPathName, 'test', name + '.iwibot_test.js'));
                         this.logger.message('Template', `nodejs template written to directory ${fnPathName}`);
-                        this.addYamlPartToFile(name, kind + ':8', fnPathName, path_1.join('lib', name + '.main'), [
+                        this.addYamlPartToFile(name, kind + ':8', fnPathName, 'lib/' + name + '.main', [
                             'lib/**/*',
                             'package.json',
                             'README.md'
