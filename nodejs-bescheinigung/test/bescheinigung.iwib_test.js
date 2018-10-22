@@ -2,7 +2,6 @@ let request = require('request');
 let expect = require('chai').expect;
 let assert = require('chai').assert;
 let promisify = require('bluebird').promisify;
-let log = require('../../utils/Logger');
 let actionUrl = process.env.ACTION_PREFIX_URL + '/bescheinigung';
 
 describe("Beschinigung Action Test", function() {

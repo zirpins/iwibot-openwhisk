@@ -1,7 +1,6 @@
 let request = require('request');
 let expect = require('chai').expect;
 const { assert } = require('chai');
-let log = require('../../utils/Logger');
 let { promisify } = require('bluebird')
 let actionUrl = process.env.ACTION_PREFIX_URL + '/joke';
 

@@ -4,7 +4,6 @@
 let request = require('request');
 let expect = require('chai').expect;
 let assert = require('assert');
-let log = require('../../utils/Logger');
 let actionUrl = process.env.ACTION_PREFIX_URL + '/login';
 
 describe("Login Action Test", function () {
