@@ -1,5 +1,5 @@
 ## Getting your environment set up
-1. If you have not installed and configured your Bluemix CLI already, follow the steps as shown [here](https://console.bluemix.net/openwhisk/learn/cli).
+1. If you have not installed and configured your Bluemix CLI already, follow the steps as shown [here](https://console.bluemix.net/docs/cli/index.html#overview).
 2. Run `npm install` in the root directory of the project to install the serverless dependency
 3. Copy the `template.local.env` on linux and paste it named `local.env`. On Windows copy the `windows-template.local.cmd` and paste it as `local.cmd`.   
 Then add your IBM credentials to the `local.env` or `local.cmd`. Optionally add another organization and space.
@@ -50,7 +50,7 @@ A plugin is added to extend the serverless framework functionality.
 * `sls iwibot unbind` remove the api gateway definitions and service bindings *(shorthand for `sls iwibot service unbind` and `sls iwibot api unbind`)*
 * `sls iwibot template create --name test --kind nodejs|go|python|php|java` creates a funtion template based on the kind. `-n` is the shorcut for `--name` and `-k` for `--kind.
 
-If you want to bind resources to or create api's for functions, first you __*need*__ to __*deploy*__ the functions! After that be sure, that the needed environment variables are visible (local.env). The authenticate scripts make the env vars visible. Then you can invoke `sls iwibot service bind` and `sls iwibot api bind` or the shorthand `sls iwibot finalize`.
+If you want to bind resources to or create api's for functions, first you __*need*__ to __*deploy*__ the functions! After that be sure, that the needed environment variables are visible (local.env). The authenticate scripts make the env vars visible. Then you can invoke `sls iwibot service bind` and `sls iwibot api bind` or the shorthand `sls iwibot bind`.
 
 Detailed information on how to work with the serverless framework can be found [here](https://serverless.com/framework/docs/providers/openwhisk/).
 
