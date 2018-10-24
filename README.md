@@ -36,13 +36,20 @@ The `key` is equivalent with the name of the credentials of the service.
    `key` inside the context of the Weather function in the `serverless.yml` file. You may need to create new 
    service-credentials or a 'Serviceberechtigungsnachweis' for that purpose.
 
-The commands shown bellow need the `serverless` framework to be installed globally, otherwise you need to execute the appropriate commands through the `package.js` scripts section. 
-To install `serverless` globally type `sudo npm i -g serverless`.
+The commands shown bellow need the `serverless` framework to be installed globally, otherwise you need to execute the 
+appropriate commands through the `package.js` scripts section. To install `serverless` globally 
+type `sudo npm i -g serverless`.
 
-After you installed `serverless` globally you can start creating a template with `sls iwibot template create --kind nodejs --name test`.  
+After you installed `serverless` globally you can use the tool `sls iwibot` with a variety of commands as explained 
+below. Before calling the tool, make sure to load the environment variables defined in `local.env` into your shell 
+context. you can do this with `source local.env` on linux/mac or `call local.env` on windows.
+
+After that you can, for example, start creating a template with `sls iwibot template create --kind nodejs --name test`.  
 
 ### Working with the Serverless Framework
-For the deployment of the functions we are using the serverles framework. All information that are needed for the deployment are kept inside the  ***__serverless.yml__*** found at the root of the openwhisk folder.
+
+For the deployment of the functions we are using the serverles framework. All information that are needed for the 
+deployment are kept inside the  ***__serverless.yml__*** found at the root of the openwhisk folder.
 
 A plugin is added to extend the serverless framework functionality.
 * `sls iwibot` will package and deploy all enabled functions
