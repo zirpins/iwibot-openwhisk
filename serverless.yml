@@ -31,7 +31,7 @@ functions:
     handler: lib/Joke.main
     relpath: nodejs-joke
     package:
-      name: IWIBot
+      name: IWIbot_dev
       include:
         - lib/**/*
         - package.json
@@ -61,20 +61,20 @@ functions:
         - package.json
         - README.md
   Router:
-    enabled: false
+    enabled: true
     name: Router
     runtime: 'nodejs:8'
     handler: lib/Router.main
     relpath: nodejs-router
     parameters:
-      workspace_id: a2f68213-7d89-4622-b185-89b4f5ef6cf5
+      workspace_id: 4b9aa897-7134-4dbb-9b87-2b4ef6e47fac
     annotations:
       web-export: true
     bind:
       - service:
           type: conversation
-          key: Credentials-1
-          instance: conversation
+          key: Serviceberechtigungsnachweise-1
+          instance: conversation-1
     events:
       - http:
           basepath: /iwibot
@@ -83,7 +83,7 @@ functions:
           responsetype: http
           cors: true
     package:
-      name: IWIBot
+      name: IWIbot_dev
       include:
         - lib/**/*
         - package.json
@@ -133,7 +133,7 @@ functions:
     bind:
       - service:
           type: weatherinsights
-          key: Credentials-1
+          key: Serviceberechtigungsnachweise-1
           instance: weatherinsights
     package:
       name: IWIBot
@@ -220,6 +220,18 @@ functions:
     runtime: 'nodejs:8'
     handler: lib/Test.main
     relpath: template-nodejs
+    package:
+      name: IWIBot
+      include:
+        - lib/**/*
+        - package.json
+        - README.md
+  test:
+    enabled: false
+    relpath: nodejs-test
+    name: test
+    runtime: 'nodejs:8'
+    handler: lib/test.main
     package:
       name: IWIBot
       include:

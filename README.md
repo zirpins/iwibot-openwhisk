@@ -41,8 +41,8 @@ appropriate commands through the `package.js` scripts section. To install `serve
 type `sudo npm i -g serverless`.
 
 After you installed `serverless` globally you can use the tool `sls iwibot` with a variety of commands as explained 
-below. Before calling the tool, make sure to load the environment variables defined in `local.env` into your shell 
-context. you can do this with `source local.env` on linux/mac or `call local.env` on windows.
+below. Before calling the tool, make sure to load the environment variables defined in `local.env` or `local.cmd` 
+into your shell context. you can do this with `source local.env` on linux/mac or `call local.cmd` on windows.
 
 After that you can, for example, start creating a template with `sls iwibot template create --kind nodejs --name test`.  
 
