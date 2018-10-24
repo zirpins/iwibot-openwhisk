@@ -15,15 +15,26 @@ The `service-type` is equivalent with the `type` property in the `serverless.yml
 The `service-name` is equivalent with the `instance` property in the `serverless.yml` file.  
 The `key` is equivalent with the name of the credentials of the service.
 
-1. Clone the repository. In a console run:  
-`git clone https://github.com/HSKA-IWI-VSYS/iwibot-openwhisk.git`
-2. Follow the instructions in the [iwibot-watson-assistant](https://github.com/HSKA-IWI-VSYS/iwibot-watson-assistant) repository.
-3. Go back to the page (which shows all workspaces; in this case, it will be just one workspace). Click the three vertical dots icon to open the menu and select View details. This loads the details of the workspace including the workspace id.
-4. Copy the `workspace_id` and replace it with the `workspace_id` found in the `serverless.yml` inside the context of the Router function.
-5. Create the `weatherinsights` service [here](https://console.bluemix.net/catalog/services/weather-company-data) and name it `weatherinsights`
-6. Go to your Cloud Dashboard and get the `service-type` and `service-name` of the `weatherinsights` service to paste the values inside the context of the Weather function in the `serverless.yml`.
-7. After that, select the `weatherinsights` service and get the name of your service-credentials to paste it as the `key` inside the context of the Weather function in the `serverless.yml` file.
-
+1. Clone the repository. In a console run: `git clone https://github.com/HSKA-IWI-VSYS/iwibot-openwhisk.git`
+2. Follow the instructions in the [iwibot-watson-assistant](https://github.com/HSKA-IWI-VSYS/iwibot-watson-assistant) 
+   repository.
+3. Go back to the page (which shows all workspaces; in this case, it will be just one workspace). Click the three
+   vertical dots icon to open the menu and select View details. This loads the details of the workspace including 
+   the workspace id.
+4. Copy the `workspace_id` and replace it with the `workspace_id` found in the `serverless.yml` inside the context of 
+   the Router function.
+5. If you have used a name other than `conversation`, you need to replace the `instance` found in the `serverless.yml` 
+   inside the context of the Router functions' service binding.
+6. Additionally, you may need to create new service-credentials or a 'Serviceberechtigungsnachweis' and copy its
+   name into the `key` field found in the `serverless.yml` inside the context of the Router functions' service binding.
+7. Create the `weatherinsights` service [here](https://console.bluemix.net/catalog/services/weather-company-data) and 
+   name it `weatherinsights`
+8. Go to your Cloud Dashboard and get the `service-type` and `service-name` of the `weatherinsights` service to paste 
+   the values inside the context of the Weather function in the `serverless.yml`. If not visible, try `weatherinsights`
+   for `service-type` and `service-name`.
+9. After that, select the `weatherinsights` service and get the name of your service-credentials to paste it as the 
+   `key` inside the context of the Weather function in the `serverless.yml` file. You may need to create new 
+   service-credentials or a 'Serviceberechtigungsnachweis' for that purpose.
 
 The commands shown bellow need the `serverless` framework to be installed globally, otherwise you need to execute the appropriate commands through the `package.js` scripts section. 
 To install `serverless` globally type `sudo npm i -g serverless`.
