@@ -1,0 +1,3 @@
+SET WORKSPACE_ID=TheWorkspaceID
+SET CONVERSATION_SERVICE_NAME=TheConversationServiceName
+SET WEATHER_INSIGHTS_SERVICE_NAME=TheWeatherInsightsServiceName

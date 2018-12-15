@@ -27,7 +27,9 @@ cd nodejs-sprechstunde/ && ./deploy.sh && cd -
 cd nodejs-timetable/ && ./deploy.sh && cd -
 
 #NodeJs: Weather
-cd nodejs-weather && ./deploy.sh && cd -
+cd nodejs-weather/ && ./deploy.sh && cd -
 
 #NodeJs: Wikipedia
-cd nodejs-wikipedia && ./deploy.sh && cd -
+cd nodejs-wikipedia/ && ./deploy.sh && cd -
+
+echo "-------------------------DONE!-------------------------"
