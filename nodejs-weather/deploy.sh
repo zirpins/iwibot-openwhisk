@@ -8,8 +8,8 @@ npm install --production
 #compress all required folders
 zip -rq action.zip lib node_modules package.json
 #upload zip action to the ibm cloud
-ibmcloud functions action update Weather --kind nodejs:8 action.zip
+ibmcloud functions action update IWIBot/Weather --kind nodejs:8 action.zip
 #bind weather insights service
-ibmcloud functions service bind weatherinsights --instance ${weather_insights_service_name} Weather
+ibmcloud functions service bind weatherinsights --instance ${weather_insights_service_name} IWIBot/Weather
 #remove zip file
 rm action.zip

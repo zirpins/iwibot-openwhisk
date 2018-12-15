@@ -5,5 +5,5 @@ ECHO ----------------------------------------------
 
 call npm install --production
 call jar -cfM action.zip lib node_modules package.json
-call ibmcloud functions action update Meal --kind nodejs:8 action.zip
+call ibmcloud functions action update IWIBot/Meal --kind nodejs:8 action.zip
 call DEL action.zip

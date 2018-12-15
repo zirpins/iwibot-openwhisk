@@ -7,6 +7,6 @@ call ..\config.cmd
 
 call npm install --production
 call jar -cfM action.zip lib node_modules package.json
-call ibmcloud functions action update Weather --kind nodejs:8 action.zip
-call ibmcloud functions service bind weatherinsights --instance %WEATHER_INSIGHTS_SERVICE_NAME% Weather
+call ibmcloud functions action update IWIBot/Weather --kind nodejs:8 action.zip
+call ibmcloud functions service bind weatherinsights --instance %WEATHER_INSIGHTS_SERVICE_NAME% IWIBot/Weather
 call DEL action.zip
