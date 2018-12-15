@@ -61,7 +61,7 @@ function main(params) {
                     meals.mealGroups[entity] === undefined || meals.mealGroups[entity].meals.length === 0 ||
                     meals.mealGroups[entity].meals.length === undefined) {
 
-                    resultObject.payload = "In der Mensa gibt es heute nichts zu essen, vielleicht sind Ferien?" + d;
+                    resultObject.payload = "In der Mensa gibt es heute nichts zu essen, vielleicht sind Ferien?" ;
 
                     resolve(resultObject);
                 } else {
@@ -75,7 +75,7 @@ function main(params) {
                     }
 
                     ulStart += '</ul>';
-                    resultObject.payload = meals.mealGroups[entity].title + ' hat heute folgendes im Angebot:' + d;
+                    resultObject.payload = meals.mealGroups[entity].title + ' hat heute folgendes im Angebot:';
                     resultObject.htmlText = ulStart;
 
                     resolve(resultObject);
