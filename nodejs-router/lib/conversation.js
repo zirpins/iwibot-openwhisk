@@ -5,8 +5,7 @@ exports.sendMessage = function sendMessage(init, params) {
     console.log('Conversation Params: ' + JSON.stringify(params, null, 2));
 
     const conversation = new AssistantV1({
-        username: params.__bx_creds.conversation.username,
-        password: params.__bx_creds.conversation.password,
+		iam_apikey: params.__bx_creds.conversation.apikey,
         url: params.__bx_creds.conversation.url,
         version: "2018-14-10"
     });
