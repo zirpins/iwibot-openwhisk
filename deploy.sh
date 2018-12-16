@@ -32,4 +32,7 @@ cd nodejs-weather/ && ./deploy.sh && cd -
 #NodeJs: Wikipedia
 cd nodejs-wikipedia/ && ./deploy.sh && cd -
 
+#NodeJs: Modulhandbuch
+cd nodejs-modulhandbuch/ && ./deploy.sh && cd -
+
 echo "-------------------------DONE!-------------------------"

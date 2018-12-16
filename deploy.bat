@@ -32,4 +32,8 @@ call cd nodejs-weather\ && call deploy.bat && call cd ..
 :: NodeJs: Wikipedia
 call cd nodejs-wikipedia\ && call deploy.bat && call cd ..
 
+:: NodeJs: Modulhandbuch
+call cd nodejs-modulhandbuch\ && call deploy.bat && call cd ..
+
+
 ECHO -------------------------DONE!-------------------------
