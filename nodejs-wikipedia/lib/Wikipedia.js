@@ -54,7 +54,8 @@ function main(params) {
 
                 if (title != undefined) {
                     responseObject.payload = "Das habe ich zu " + searchQuery + " gefunden.";
-                    responseObject.htmlText = shortText + "\n(" + wikiUrl + ")";
+                    responseObject.htmlText = "<p>" + shortText + "</p>" + "\n";
+                    responseObject.htmlText += "<a href='" + wikiUrl + "' target='_blank'>" + "Link to Wikipedia" + "</a>" ;
                 } else {
                     responseObject.payload = "Zu ihrem Suchwort habe ich nichts gefunden.";
                 }
