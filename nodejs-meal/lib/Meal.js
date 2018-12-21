@@ -61,7 +61,7 @@ function main(params) {
                     meals.mealGroups[entity] === undefined || meals.mealGroups[entity].meals.length === 0 ||
                     meals.mealGroups[entity].meals.length === undefined) {
 
-                    resultObject.payload = "In der Mensa gibt es heute nichts zu essen, vielleicht sind Ferien?" ;
+                    resultObject.payload = "In der Mensa gibt es heute nichts zu essen, vielleicht sind Ferien?";
 
                     resolve(resultObject);
                 } else {
