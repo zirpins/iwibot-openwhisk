@@ -1,6 +1,6 @@
 ## Getting your environment set up
 1. If you have not installed and configured your Bluemix CLI already, follow the steps as shown [here](https://console.bluemix.net/docs/cli/index.html#overview).
-2. Run `npm install` in the root directory of the project to install the serverless dependency
+2. Run `npm install` in the root directory of the project to install the serverless dependency and install *serverless* with `sudo npm i -g serverless@1.32`
 3. Copy the `template.local.env` on linux and paste it named `local.env`. On Windows copy the `windows-template.local.cmd` and paste it as `local.cmd`.   
 Then add your IBM credentials to the `local.env` or `local.cmd`. Optionally add another organization and space.
 4. Login to your IBMCloud-CLI on linux via `./bx_authenticate.sh` and on windows via `bx_authenticate.bat`.
@@ -38,7 +38,7 @@ The `key` is equivalent with the name of the credentials of the service.
 
 The commands shown bellow need the `serverless` framework to be installed globally, otherwise you need to execute the 
 appropriate commands through the `package.js` scripts section. To install `serverless` globally 
-type `sudo npm i -g serverless`.
+type `sudo npm i -g serverless@1.32` (*for any reason, some other version not working*).
 
 After you installed `serverless` globally you can use the tool `sls iwibot` with a variety of commands as explained 
 below. Before calling the tool, make sure to load the environment variables defined in `local.env` or `local.cmd` 
@@ -66,7 +66,7 @@ A plugin is added to extend the serverless framework functionality.
 * `sls iwibot api unbind` deletes the api gateway definitions of enabled functions
 * `sls iwibot bind` configures api gateway definitions and bind services *(shorthand for `sls iwibot service bind` and `sls iwibot api bind`)*
 * `sls iwibot unbind` remove the api gateway definitions and service bindings *(shorthand for `sls iwibot service unbind` and `sls iwibot api unbind`)*
-* `sls iwibot template create --name test --kind nodejs|go|python|php|java` creates a funtion template based on the kind. `-n` is the shorcut for `--name` and `-k` for `--kind.
+* `sls iwibot template create --name test --kind nodejs|go|python|php|java` creates a funtion template based on the kind. `-n` is the shortcut for `--name` and `-k` for `--kind`.
 
 If you want to bind resources to or create api's for functions, first you __*need*__ to __*deploy*__ the functions! After that be sure, that the needed environment variables are visible (local.env). The authenticate scripts make the env vars visible. Then you can invoke `sls iwibot service bind` and `sls iwibot api bind` or the shorthand `sls iwibot bind`.
 
@@ -145,9 +145,7 @@ Please add IDE specified directories to the `.gitignore` file.
 
 If a new runtime should be supported, the build and the deploy part must be implemented into the [Serverless Build Plugin](https://github.com/HSKA-IWI-VSYS/iwibot-serverless-build-plugin).
 
-The `js-yaml` and `ncp` dependencies in the `package.json` are needed for the `iwibot-serverless-build-plugin`. Other dependencies for this plugin must be added to the `package.json` as well.
-
 When you have a deployment error and in the shown url is something like `placeholder/_/placeholder` then check your `.wskprops` file in your home directory. The `NAMESPACE` value could be empty. To fix this just overwrite the `OW_NAMESPACE=_` with `NAMESPACE=ORG_SPACE` where `ORG` is the wanted organization and `SPACE` the space.
 
-Rules and Feeds are not supported, but can be implemented! 
+**Rules**, **Feeds** and **Sequences** are not supported yet! 
 

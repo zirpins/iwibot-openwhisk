@@ -15,20 +15,12 @@
   },
   "devDependencies": {
     "assert": "^1.4.1",
-    "bluebird": "^3.5.2",
+    "bluebird": "^3.5.3",
     "iwibot-serverless-build-plugin": "github:HSKA-IWI-VSYS/iwibot-serverless-build-plugin#release",
-    "js-yaml": "^3.12.0",
-    "lodash": "^4.17.11",
     "mocha": "^5.2.0",
-    "ncp": "^2.0.0",
-    "path": "^0.12.7",
-    "serverless": "^1.30.3",
     "serverless-build-plugin": "^2.4.0-alpha.0",
-    "serverless-openwhisk": ">=0.13.0",
-    "serverless-python-requirements": "^4.1.1",
-    "uglify-js": "^3.4.9",
-    "xargs": "^1.1.3",
-    "xml2js": "^0.4.19"
+    "serverless-openwhisk": "^0.16.2",
+    "serverless-python-requirements": "^4.2.5"
   },
   "dependencies": {}
 }
