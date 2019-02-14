@@ -55,34 +55,17 @@ let cryptoMod = (function () {
 
     return { // public part of the module
 
-        initCryptoKey: function (keyData) { // set crypto key in module state   
+        initCryptoKey: function (keyData) {
             importSecretAesKey(hex2buf(keyData))
-                .then(function (key) {
-                    secret_key = key;
-                    console.log(key);
-                })
-                .catch(function (err) {
-                    console.error(err);
-                });
+                .then(key => secret_key = key)
+                .catch(err => console.error(err));
         },
 
         createEncryptedJsonMessage: function (plaintext) {
             let data = encoder.encode(plaintext);
-            console.log(plaintext, data);
             return encryptPlaintextWithAes(data, secret_key)
-                .then(function (msg) {
-                    return Promise.resolve(
-                        JSON.stringify(msg, function (k, v) {
-                            if (v instanceof Uint8Array) {
-                                return Array.apply([], v);
-                            }
-                            return v;
-                        })
-                    );
-                })
-                .catch(function (err) {
-                    console.error(err);
-                });
+                .then(msg => Promise.resolve(JSON.stringify(msg)))
+                .catch(err => console.error(err));
         }
     };
 })();
