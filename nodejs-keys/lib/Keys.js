@@ -1,5 +1,6 @@
 const request = require('request'),
-    crypto = require('crypto');
+    crypto = require('crypto'),
+    openwhisk = require('openwhisk');
 
 require('dotenv').load();
 
@@ -28,21 +29,14 @@ function main(params) {
             console.log("Session id created: " + session_id.toString('hex'));
         }
 
-        // 192 bit mock key instead of: encryption_key = crypto.randomBytes(24);
-        encryption_key = new Buffer("e94b9a6b80ee2633c47bd00ab16d84d54e453c9d7118978c", "hex");
-
-        // random IV needs to be passed along each call
-        // 16 bit mock iv instead of: encryption_iv = crypto.randomBytes(16);        
-        encryption_iv = new Buffer("8cbcfa139e61225f2a2050e2adda32fb", "hex");
-
+        // 256 bit mock key instead of: encryption_key = crypto.randomBytes(32);
+        encryption_key = new Buffer("b26301cc95648636104ed5c40cd083ec0b507434a809b6186d882f9f3665baa5", "hex");
         console.log("crypto_key created: " + encryption_key.toString('hex'));
-        console.log("crypto_iv created: " + encryption_iv.toString('hex'));
 
         resolve({
             "payload": {
                 "sid": session_id,
                 "crypto_key": encryption_key.toString('hex'),
-                "crypto_iv": encryption_iv.toString('hex')
             }
         });
     });

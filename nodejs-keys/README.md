@@ -29,7 +29,6 @@ A service that provides a temporary symmetric encryption key for each user sessi
 - Carries a json object payload
 - Has a `sid` member with the session identifier
 - Has a `crypto_key` member with the symmetric key
-- Has a `crypto_iv` member with the crypto init vector
 - All values are hex strings
 
 ## Usage
