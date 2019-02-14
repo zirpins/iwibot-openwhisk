@@ -1,0 +1,16 @@
+{
+  "name": "Sessions",
+  "description": "IWIBot test module",
+  "license": "Apache-2.0",
+  "version": "1.0.0",
+  "main": "lib/Sessions.js",
+  "scripts": {
+    "test": "grunt nodeunit"
+  },
+  "dependencies": {
+    "request": "^2.81.0"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0"
+  }
+}

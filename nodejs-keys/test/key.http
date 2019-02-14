@@ -1,0 +1,4 @@
+### get key w/o prior session
+GET https://us-south.functions.cloud.ibm.com/api/v1/web/IWIbot_dev/IWIbot_dev/Keys.json?sid= HTTP/1.1
+### get key w/ prior session
+GET https://us-south.functions.cloud.ibm.com/api/v1/web/IWIbot_dev/IWIbot_dev/Keys.json?sid= HTTP/1.1

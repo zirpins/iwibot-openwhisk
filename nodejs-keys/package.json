@@ -1,0 +1,19 @@
+{
+  "name": "Keys",
+  "description": "IWIBot test module",
+  "license": "Apache-2.0",
+  "version": "1.0.0",
+  "main": "lib/Keys.js",
+  "scripts": {
+    "test": "grunt nodeunit"
+  },
+  "dependencies": {
+    "@cloudant/cloudant": "^3.0.1",
+    "crypto": "^1.0.1",
+    "dotenv": "^6.2.0",
+    "request": "^2.81.0"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0"
+  }
+}
