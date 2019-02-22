@@ -2,6 +2,8 @@ const request = require('request'),
     crypto = require('crypto'),
     openwhisk = require('openwhisk');
 
+const SESSIONS_ACTION = "/IWIbot_dev/IWIbot_dev/Sessions";
+
 function main(params) {
     if ("__ow_body" in params) { // Für das Testen erforderlich..
         Object.assign(params, JSON.parse(params.__ow_body));
@@ -12,14 +14,20 @@ function main(params) {
     console.log("Keys Action Params:" + JSON.stringify(params));
 
     return new Promise(function (resolve, reject) {
-        action( // call session service to negotiate the session id and crypto key
-                name = "/IWIbot_dev/IWIbot_dev/Sessions",
-                blocking = true,
-                result = true,
-                params = params)
+        let ow = openwhisk();
+
+        // Call sessions service to negotiate session id and crypto key
+        ow.actions.invoke({
+                name: SESSIONS_ACTION,
+                blocking: true,
+                result: true,
+                params: params
+            })
 
             .then(function (sessions_response) {
                 let session_string, key_string;
+
+                console.log(sessions_response);
 
                 if ('payload' in sessions_response && "sid" in sessions_response.payload) {
 
@@ -32,10 +40,15 @@ function main(params) {
 
                     } else {
 
-                        // create and store new 256 bit aes key if required
+                        // Create and store new 256 bit aes key if required
                         raw_key = crypto.randomBytes(32);
                         key_string = raw_key.toString('hex');
                         console.log("crypto key created: " + key_string);
+
+                        // Ensure session context
+                        if (typeof params.payload.session_context === 'undefined') {
+                            params.payload.session_context = {};
+                        }
 
                         // Put crypto key in session context
                         params.session_context = {
@@ -43,11 +56,12 @@ function main(params) {
                         };
 
                         // Update session
-                        action(
-                            name = "/IWIbot_dev/IWIbot_dev/Sessions",
-                            blocking = false,
-                            result = false,
-                            params = params);
+                        ow.actions.invoke({
+                            name: SESSIONS_ACTION,
+                            blocking: false,
+                            result: false,
+                            params: params
+                        });
                     }
 
                     resolve({
@@ -68,16 +82,6 @@ function main(params) {
             }); // End action chain
 
     }); // End new Promise
-}
-
-function action(name, blocking, result, params) {
-    let ow = openwhisk();
-    return ow.actions.invoke({
-        name,
-        blocking,
-        result,
-        params
-    }); // jshint ignore:line
 }
 
 exports.main = main;
