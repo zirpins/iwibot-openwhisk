@@ -27,8 +27,6 @@ function main(params) {
             .then(function (sessions_response) {
                 let session_string, key_string;
 
-                console.log(sessions_response);
-
                 if ('payload' in sessions_response && "sid" in sessions_response.payload) {
 
                     session_string = sessions_response.payload.sid;
