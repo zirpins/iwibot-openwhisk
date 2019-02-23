@@ -14,47 +14,55 @@ function main(params) {
     console.log("Keys Action Params:" + JSON.stringify(params));
 
     return new Promise(function (resolve, reject) {
-        let ow = openwhisk();
 
         // Call sessions service to negotiate session id and crypto key
-        ow.actions.invoke({
+        openwhisk().actions.invoke({
                 name: SESSIONS_ACTION,
                 blocking: true,
                 result: true,
                 params: params
             })
 
-            .then(function (sessions_response) {
+            .then(function (response) {
                 let session_string, key_string;
 
-                if ('payload' in sessions_response && "sid" in sessions_response.payload) {
+                if ('payload' in response && "sid" in response.payload) {
 
-                    session_string = sessions_response.payload.sid;
+                    session_string = response.payload.sid;
 
-                    if ('session_context' in sessions_response.payload &&
-                        "crypto_key" in sessions_response.payload.session_context) {
+                    if ('session_context' in response.payload &&
+                        "crypto_key" in response.payload.session_context) {
 
-                        key_string = sessions_response.payload.session_context.crypto_key;
+                        // Use existing crypto key
+                        key_string = response.payload.session_context.crypto_key;
 
-                    } else {
+                    } else { // No crypto key in session yet
 
                         // Create and store new 256 bit aes key if required
                         raw_key = crypto.randomBytes(32);
                         key_string = raw_key.toString('hex');
                         console.log("crypto key created: " + key_string);
 
-                        // Ensure session context
-                        if (typeof params.payload.session_context === 'undefined') {
-                            params.payload.session_context = {};
+                        // Ensure session identifier param
+                        if (typeof params.sid === 'undefined') {
+                            params.sid = session_string;
+                        }
+
+                        // Ensure session context param
+                        if (typeof params.session_context === 'undefined') {
+                            params.session_context = {};
                         }
 
                         // Put crypto key in session context
-                        params.session_context = {
-                            'crypto_key': key_string
-                        };
+                        params.session_context.crypto_key = key_string;
+
+                        console.log("Persisting session id " +
+                            params.sid + " with context " +
+                            JSON.stringify(params.session_context) +
+                            " using " + SESSIONS_ACTION);
 
                         // Update session
-                        ow.actions.invoke({
+                        openwhisk().actions.invoke({
                             name: SESSIONS_ACTION,
                             blocking: false,
                             result: false,
@@ -70,16 +78,25 @@ function main(params) {
                     }); // End if payload.seesion_context.crypto_key
 
                 } else {
+                    console.error("Sessions error");
 
                     reject({
-                        "reason": "Sessions unavailable"
+                        "reason": "Sessions error"
                     });
 
                 } // End if payload.sid
 
+            }).catch(function (err) {
+                console.error(err);
+
+                reject({
+                    "reason": err
+                });
+
             }); // End action chain
 
     }); // End new Promise
+
 }
 
 exports.main = main;
