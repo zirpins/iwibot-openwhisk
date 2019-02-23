@@ -12,54 +12,7 @@ triggers: null
 plugins:
   - iwibot-serverless-build-plugin
 functions:
-  Schwimmbad:
-    enabled: false
-    name: Schwimmbad
-    runtime: java
-    handler: de.hska.iwibot.actions.java.Schwimmbad
-    relpath: java-schwimmbad
-    package:
-      name: IWIBot
-      include:
-        - src/**/*
-        - pom.xml
-        - README.md
-  Joke:
-    enabled: false
-    name: Joke
-    runtime: 'nodejs:8'
-    handler: lib/Joke.main
-    relpath: nodejs-joke
-    package:
-      name: IWIbot_dev
-      include:
-        - lib/**/*
-        - package.json
-        - README.md
-  Bescheinigung:
-    enabled: false
-    name: Bescheinigung
-    runtime: 'nodejs:8'
-    handler: lib/Bescheinigung.main
-    relpath: nodejs-bescheinigung
-    package:
-      name: IWIBot
-      include:
-        - lib/**/*
-        - package.json
-        - README.md
-  Meal:
-    enabled: false
-    name: Meal
-    runtime: 'nodejs:8'
-    handler: lib/Meal.main
-    relpath: nodejs-meal
-    package:
-      name: IWIBot
-      include:
-        - lib/**/*
-        - package.json
-        - README.md
+  # Infrastructure: central routing function
   Router:
     enabled: true
     name: Router
@@ -72,9 +25,9 @@ functions:
       web-export: true
     bind:
       - service:
-          type: Watson Assistant
+          type: conversation
           key: Serviceberechtigungsnachweise-1
-          instance: Assistant-le
+          instance: TBA!!!
     events:
       - http:
           basepath: /iwibot
@@ -83,11 +36,104 @@ functions:
           responsetype: http
           cors: true
     package:
-      name: IWIbot_dev
+      name: IWIBot
       include:
         - lib/**/*
         - package.json
         - README.md
+  # Infrastructure: generic session service
+  Sessions:
+    enabled: true
+    relpath: nodejs-sessions
+    name: Sessions
+    runtime: 'nodejs:8'
+    handler: lib/Sessions.main
+    bind:
+      - service:
+        type: cloudantnosqldb
+        key: Serviceberechtigungsnachweise-1
+        instance: Cloudant-xt
+    package:
+      name: IWIBot
+      include:
+        - lib/**/*
+        - package.json
+        - README.md
+  # Infrastructure: generic crypto key service
+  Keys:
+    enabled: true
+    relpath: nodejs-keys
+    name: Keys
+    runtime: 'nodejs:8'
+    handler: lib/Keys.main
+    annotations:
+      web-export: true
+    events:
+      - http:
+          basepath: /iwibot
+          relpath: /keys
+          operation: post
+          responsetype: http
+          cors: true
+    package:
+      name: IWIBot
+      include:
+        - lib/**/*
+        - package.json
+        - README.md
+  # Capabilities: Schwimmbad Zeiten
+  Schwimmbad:
+    enabled: false
+    name: Schwimmbad
+    runtime: java
+    handler: de.hska.iwibot.actions.java.Schwimmbad
+    relpath: java-schwimmbad
+    package:
+      name: IWIBot
+      include:
+        - src/**/*
+        - pom.xml
+        - README.md
+  # Capabilities: Joke
+  Joke:
+    enabled: true
+    name: Joke
+    runtime: 'nodejs:8'
+    handler: lib/Joke.main
+    relpath: nodejs-joke
+    package:
+      name: IWIBot
+      include:
+        - lib/**/*
+        - package.json
+        - README.md
+  # Capabilities: Bescheinigung ausstellen
+  Bescheinigung:
+    enabled: false
+    name: Bescheinigung
+    runtime: 'nodejs:8'
+    handler: lib/Bescheinigung.main
+    relpath: nodejs-bescheinigung
+    package:
+      name: IWIBot
+      include:
+        - lib/**/*
+        - package.json
+        - README.md
+  # Capabilities: Mensa Abfrage
+  Meal: 
+    enabled: false
+    name: Meal
+    runtime: 'nodejs:8'
+    handler: lib/Meal.main
+    relpath: nodejs-meal
+    package:
+      name: IWIBot
+      include:
+        - lib/**/*
+        - package.json
+        - README.md
+  # Capabilities: Semester 
   Semester:
     enabled: false
     name: Semester
@@ -100,6 +146,7 @@ functions:
         - lib/**/*
         - package.json
         - README.md
+  # Capabilities: Sprechstunden
   Sprechstunde:
     enabled: false
     name: Sprechstunde
@@ -112,6 +159,7 @@ functions:
         - lib/**/*
         - package.json
         - README.md
+  # Capabilities: Stundenplan Abfrage
   Timetable:
     enabled: false
     name: Timetable
@@ -124,6 +172,7 @@ functions:
         - lib/**/*
         - package.json
         - README.md
+  # Capabilities: Wetterbericht
   Weather:
     enabled: false
     name: Weather
@@ -141,6 +190,7 @@ functions:
         - lib/**/*
         - package.json
         - README.md
+  # Capabilities: Wikipedia Abfrage
   Wikipedia:
     enabled: false
     name: Wikipedia
@@ -153,6 +203,7 @@ functions:
         - lib/**/*
         - package.json
         - README.md
+  # Capabilities: Modulhandbuch Abfrage
   Modulhandbuch:
     enabled: false
     name: Modulhandbuch
@@ -165,6 +216,7 @@ functions:
         - lib/**/*
         - package.json
         - README.md
+  # Templates: PHP Basis
   Template-PHP:
     enabled: false
     name: Template-PHP
@@ -178,6 +230,7 @@ functions:
         - vendor/**/*
         - composer.json
         - README.md
+  # Templates: Go Basis
   Template-Go:
     enabled: false
     name: Template-Go
@@ -189,6 +242,7 @@ functions:
       name: IWIBot
       include:
         - bin/exec
+  # Templates: Python Basis
   Template-Python:
     enabled: false
     name: Template-Python
@@ -202,6 +256,7 @@ functions:
         - lib/**/*
         - requirements.txt
         - README.md
+  # Templates: Java Basis
   Template-Java:
     enabled: false
     name: Template-Java
@@ -214,6 +269,7 @@ functions:
         - src/**/*
         - pom.xml
         - README.md
+  # Templates: Javascript Basis
   Template-Nodejs:
     enabled: false
     name: Template-Nodejs
@@ -226,6 +282,7 @@ functions:
         - lib/**/*
         - package.json
         - README.md
+  # Misc:
   test:
     enabled: false
     relpath: nodejs-test
@@ -234,44 +291,6 @@ functions:
     handler: lib/test.main
     package:
       name: IWIBot
-      include:
-        - lib/**/*
-        - package.json
-        - README.md
-  Sessions:
-    enabled: true
-    relpath: nodejs-sessions
-    name: Sessions
-    runtime: 'nodejs:8'
-    handler: lib/Sessions.main
-    bind:
-      - service:
-        type: Cloudant
-        key: Serviceberechtigungsnachweise-1
-        instance: Cloudant-fu
-    package:
-      name: IWIbot_dev
-      include:
-        - lib/**/*
-        - package.json
-        - README.md
-  Keys:
-    enabled: true
-    relpath: nodejs-keys
-    name: Keys
-    runtime: 'nodejs:8'
-    handler: lib/Keys.main
-    annotations:
-      web-export: true
-    events:
-      - http:
-          basepath: /iwibot
-          relpath: /keys
-          operation: get
-          responsetype: http
-          cors: true
-    package:
-      name: IWIbot_dev
       include:
         - lib/**/*
         - package.json
