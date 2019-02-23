@@ -1,8 +1,7 @@
-const request = require('request'),
-    crypto = require('crypto'),
+const crypto = require('crypto'),
     openwhisk = require('openwhisk');
 
-const SESSIONS_ACTION = "/IWIbot_dev/IWIbot_dev/Sessions";
+const SESSIONS_ACTION = "/IWIbot_dev/IWIBot/Sessions";
 
 function main(params) {
     if ("__ow_body" in params) { // Für das Testen erforderlich..
