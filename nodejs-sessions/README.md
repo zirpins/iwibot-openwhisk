@@ -21,28 +21,31 @@ A service that provides a temporary persistent session context for each user.
 
 ### Request
 
-- has a `session` header carrying the session id (which might be empty at this point)
+- Requests carry a json object payload or query parameters (referred to as `params`)
+  - `params` MIGHT include `sid` with a session identifier (only for retrieving an existing session)
+  - `params` MIGHT include a `session_context` JSON object with any members (only for creating or updating session_contex)
 
 ### Response
 
-- has a `session` header carrying the session id
-- has a JSON payload carrying the session context
+- Carries a JSON object containing a `payload` member.
+- `payload` is a session document containing
+  - `sid` session identifier
+  - `created_h` human readable creation timestamp
+  - `created_u` unix creation timestamp
+  - `expires_u` unix expiration time
+  - `session_context` object with any members
 
 ### Data Formats
 
-### HTTP session header
-
-```
-x-iwibot-sid: <session identifier>
-```
-
-#### Session Context
+#### Session Document
 
 ```
 {
     sid : "session identifier",
-    expires : "epoch time"
-    context : {
+    created_h : "formated creation time string"
+    created_u : "creation epoch time"
+    expires_u : "expiration epoch time"
+    session_context : {
         any_member : "any value"
     }
 }
