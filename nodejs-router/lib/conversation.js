@@ -1,33 +1,74 @@
 const AssistantV1 = require('watson-developer-cloud/assistant/v1');
 
-exports.sendMessage = function sendMessage(init, params) {
+const extend = require('extend');
+const vcap = require('vcap_services');
+
+exports.sendMessage = function (init, params) {
+
     console.log("------Conversation Started!------");
     console.log('Conversation Params: ' + JSON.stringify(params, null, 2));
 
-    const conversation = new AssistantV1({
-        username: params.__bx_creds.conversation.username,
-        password: params.__bx_creds.conversation.password,
-        url: params.__bx_creds.conversation.url,
-        version: "2018-14-10"
-    });
+    return new Promise((resolve, reject) => {
 
-    return new Promise(function (resolve, reject) {
-        const options = init ? { workspace_id: params['workspace_id'] } :
-            {
+        // move conversation parameters in place
+        params = extend({},
+            params, init ? {
+                workspace_id: params.workspace_id
+            } : {
                 input: {
                     text: params.payload.toString()
                 },
                 context: params.context,
-                workspace_id: params['workspace_id']
-            };
-        conversation.message(options, function (err, response) {
-            if (err) {
-                console.error("Conversation Error: " + err);
-                reject(err);
+                workspace_id: params.workspace_id
             }
+        );
 
-            console.log("Conversation Response: " + JSON.stringify(response, null, 4));
-            resolve(response);
+        // add conversation api version
+        params = extend({}, params, {
+            'version': "2018-07-10"
         });
+
+        // try to retrieve conversation api credentials from binding
+        if (params.__bx_creds && params.__bx_creds.conversation && params.__bx_creds.conversation.username && params.__bx_creds.conversation.password) {
+            params = extend({}, params, {
+                'username': params.__bx_creds.conversation.username,
+                'password': params.__bx_creds.conversation.username
+            });
+        } else if (params.__bx_creds && params.__bx_creds.conversation && params.__bx_creds.conversation.apikey) {
+            params = extend({}, params, {
+                'username': "apikey",
+                'password': params.__bx_creds.conversation.apikey
+            });
+        }
+
+        // finally try to retrieve credentials from cloud context
+        let _params = vcap.getCredentialsFromServiceBind(params, 'conversation');
+        _params.headers = extend({},
+            _params.headers, {
+                'User-Agent': 'openwhisk'
+            }
+        );
+
+        try {
+            
+            const conversation = new AssistantV1(_params);
+
+            conversation.message(_params, (err, response) => {
+                if (err) {
+                    console.error("Conversation failed: " + err);
+                    reject(err.message);
+                } else {
+                    console.log("Conversation succeeded: " + JSON.stringify(response));
+                    resolve(response);
+                }
+
+            });
+
+        } catch (err) { // call failed
+            console.error("Connection failed: " + err);
+            reject(err.message);
+            return;
+        }
+
     });
 };

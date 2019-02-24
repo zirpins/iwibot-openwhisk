@@ -1,6 +1,6 @@
 {
-  "name": "RouterV2",
-  "description": "Openwhisk action that passes recived params to Watson conversation service and maps the returned intent to a action",
+  "name": "routerv2",
+  "description": "Openwhisk action that passes recived params to Watson conversation service and maps the returned intent to an action",
   "license": "Apache-2.0",
   "version": "1.0.0",
   "main": "lib/Router.js",
@@ -8,7 +8,9 @@
     "test": "grunt nodeunit"
   },
   "dependencies": {
+    "extend": "^3.0.2",
     "request": "^2.81.0",
+    "vcap_services": "^0.6.0",
     "watson-developer-cloud": "^3.12.0"
   },
   "devDependencies": {

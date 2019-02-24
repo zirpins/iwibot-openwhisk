@@ -37,7 +37,7 @@ describe('Router Test Cases', () => {
             assert(body.payload.indexOf('Error') === -1 && body.payload.indexOf('error') === -1);
             done();
         });
-    })
+    });
     it('Router Action Test (meal)', (done) => {
         params.payload = 'Food 1';
         request.post({
@@ -50,7 +50,7 @@ describe('Router Test Cases', () => {
             assert(body.payload.indexOf('Error') === -1 && body.payload.indexOf('error') === -1);
             done();
         });
-    })
+    });
     it('Router Action Test (joke)', (done) => {
         params.payload = 'joke';
         request.post({

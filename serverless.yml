@@ -7,27 +7,26 @@ package:
   testbasepath: /iwibotTest
   individually: true
   exclude:
-    - '**/*'
+    - "**/*"
 triggers: null
 plugins:
   - iwibot-serverless-build-plugin
 functions:
-  # Infrastructure: central routing function
   Router:
     enabled: true
     name: Router
-    runtime: 'nodejs:8'
+    runtime: "nodejs:8"
     handler: lib/Router.main
     relpath: nodejs-router
     parameters:
-      workspace_id: af980ed8-85a6-41d0-9d6a-69186c582d0b
+      workspace_id: 5af28a8e-ecda-4c61-a811-3179b9466dbd
     annotations:
       web-export: true
     bind:
       - service:
           type: conversation
           key: Serviceberechtigungsnachweise-1
-          instance: TBA!!!
+          instance: Assistant-w8
     events:
       - http:
           basepath: /iwibot
@@ -41,30 +40,28 @@ functions:
         - lib/**/*
         - package.json
         - README.md
-  # Infrastructure: generic session service
   Sessions:
     enabled: true
     relpath: nodejs-sessions
     name: Sessions
-    runtime: 'nodejs:8'
+    runtime: "nodejs:8"
     handler: lib/Sessions.main
     bind:
       - service:
-        type: cloudantnosqldb
-        key: Serviceberechtigungsnachweise-1
-        instance: Cloudant-xt
+          type: cloudantnosqldb
+          key: Serviceberechtigungsnachweise-1
+          instance: Cloudant-xt
     package:
       name: IWIBot
       include:
         - lib/**/*
         - package.json
         - README.md
-  # Infrastructure: generic crypto key service
   Keys:
     enabled: true
     relpath: nodejs-keys
     name: Keys
-    runtime: 'nodejs:8'
+    runtime: "nodejs:8"
     handler: lib/Keys.main
     annotations:
       web-export: true
@@ -81,7 +78,6 @@ functions:
         - lib/**/*
         - package.json
         - README.md
-  # Capabilities: Schwimmbad Zeiten
   Schwimmbad:
     enabled: false
     name: Schwimmbad
@@ -94,11 +90,10 @@ functions:
         - src/**/*
         - pom.xml
         - README.md
-  # Capabilities: Joke
   Joke:
     enabled: true
     name: Joke
-    runtime: 'nodejs:8'
+    runtime: "nodejs:8"
     handler: lib/Joke.main
     relpath: nodejs-joke
     package:
@@ -107,11 +102,10 @@ functions:
         - lib/**/*
         - package.json
         - README.md
-  # Capabilities: Bescheinigung ausstellen
   Bescheinigung:
     enabled: false
     name: Bescheinigung
-    runtime: 'nodejs:8'
+    runtime: "nodejs:8"
     handler: lib/Bescheinigung.main
     relpath: nodejs-bescheinigung
     package:
@@ -120,11 +114,10 @@ functions:
         - lib/**/*
         - package.json
         - README.md
-  # Capabilities: Mensa Abfrage
-  Meal: 
+  Meal:
     enabled: false
     name: Meal
-    runtime: 'nodejs:8'
+    runtime: "nodejs:8"
     handler: lib/Meal.main
     relpath: nodejs-meal
     package:
@@ -133,11 +126,10 @@ functions:
         - lib/**/*
         - package.json
         - README.md
-  # Capabilities: Semester 
   Semester:
     enabled: false
     name: Semester
-    runtime: 'nodejs:8'
+    runtime: "nodejs:8"
     handler: lib/Semester.main
     relpath: nodejs-semester
     package:
@@ -146,11 +138,10 @@ functions:
         - lib/**/*
         - package.json
         - README.md
-  # Capabilities: Sprechstunden
   Sprechstunde:
     enabled: false
     name: Sprechstunde
-    runtime: 'nodejs:8'
+    runtime: "nodejs:8"
     handler: lib/Sprechstunde.main
     relpath: nodejs-sprechstunde
     package:
@@ -159,11 +150,10 @@ functions:
         - lib/**/*
         - package.json
         - README.md
-  # Capabilities: Stundenplan Abfrage
   Timetable:
     enabled: false
     name: Timetable
-    runtime: 'nodejs:8'
+    runtime: "nodejs:8"
     handler: lib/Timetable.main
     relpath: nodejs-timetable
     package:
@@ -172,11 +162,10 @@ functions:
         - lib/**/*
         - package.json
         - README.md
-  # Capabilities: Wetterbericht
   Weather:
     enabled: false
     name: Weather
-    runtime: 'nodejs:8'
+    runtime: "nodejs:8"
     handler: lib/Weather.main
     relpath: nodejs-weather
     bind:
@@ -190,11 +179,10 @@ functions:
         - lib/**/*
         - package.json
         - README.md
-  # Capabilities: Wikipedia Abfrage
   Wikipedia:
     enabled: false
     name: Wikipedia
-    runtime: 'nodejs:8'
+    runtime: "nodejs:8"
     handler: lib/Wikipedia.main
     relpath: nodejs-wikipedia
     package:
@@ -203,11 +191,10 @@ functions:
         - lib/**/*
         - package.json
         - README.md
-  # Capabilities: Modulhandbuch Abfrage
   Modulhandbuch:
     enabled: false
     name: Modulhandbuch
-    runtime: 'nodejs:8'
+    runtime: "nodejs:8"
     handler: lib/Modulhandbuch.main
     relpath: nodejs-modulhandbuch
     package:
@@ -216,11 +203,10 @@ functions:
         - lib/**/*
         - package.json
         - README.md
-  # Templates: PHP Basis
   Template-PHP:
     enabled: false
     name: Template-PHP
-    runtime: 'php:7.2'
+    runtime: "php:7.2"
     handler: lib/index.main
     relpath: template-php
     package:
@@ -230,7 +216,6 @@ functions:
         - vendor/**/*
         - composer.json
         - README.md
-  # Templates: Go Basis
   Template-Go:
     enabled: false
     name: Template-Go
@@ -242,11 +227,10 @@ functions:
       name: IWIBot
       include:
         - bin/exec
-  # Templates: Python Basis
   Template-Python:
     enabled: false
     name: Template-Python
-    runtime: 'python:3'
+    runtime: "python:3"
     handler: lib/__main__.main
     module: template-python
     relpath: template-python
@@ -256,7 +240,6 @@ functions:
         - lib/**/*
         - requirements.txt
         - README.md
-  # Templates: Java Basis
   Template-Java:
     enabled: false
     name: Template-Java
@@ -269,11 +252,10 @@ functions:
         - src/**/*
         - pom.xml
         - README.md
-  # Templates: Javascript Basis
   Template-Nodejs:
     enabled: false
     name: Template-Nodejs
-    runtime: 'nodejs:8'
+    runtime: "nodejs:8"
     handler: lib/Test.main
     relpath: template-nodejs
     package:
@@ -282,12 +264,11 @@ functions:
         - lib/**/*
         - package.json
         - README.md
-  # Misc:
   test:
     enabled: false
     relpath: nodejs-test
     name: test
-    runtime: 'nodejs:8'
+    runtime: "nodejs:8"
     handler: lib/test.main
     package:
       name: IWIBot
