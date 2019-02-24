@@ -32,7 +32,7 @@ exports.sendMessage = function (init, params) {
         if (params.__bx_creds && params.__bx_creds.conversation && params.__bx_creds.conversation.username && params.__bx_creds.conversation.password) {
             params = extend({}, params, {
                 'username': params.__bx_creds.conversation.username,
-                'password': params.__bx_creds.conversation.username
+                'password': params.__bx_creds.conversation.password
             });
         } else if (params.__bx_creds && params.__bx_creds.conversation && params.__bx_creds.conversation.apikey) {
             params = extend({}, params, {
