@@ -12,7 +12,7 @@ let params = {
 };
 
 describe("Weather Action Test", function () {
-    it("returns the weather forecast for Karlsruhe", function () {
+    it("returns the weather forecast for Karlsruhe", function (done) {
         request.post({
             headers: {'content-type': 'text/plain'},
             url: actionUrl,
@@ -22,6 +22,7 @@ describe("Weather Action Test", function () {
 
             assert(body.payload);
             assert(body.htmlText);
+            done();
         });
     });
 });
