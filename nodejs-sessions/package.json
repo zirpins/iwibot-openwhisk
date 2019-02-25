@@ -8,6 +8,8 @@
     "test": "mocha"
   },
   "dependencies": {
+    "cloudant": "^1.10.0-NOTICE",
+    "extend": "^3.0.2",
     "request": "^2.81.0"
   },
   "devDependencies": {

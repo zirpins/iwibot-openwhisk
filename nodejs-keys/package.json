@@ -5,7 +5,7 @@
   "version": "1.0.0",
   "main": "lib/Keys.js",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha --timeout 5000"
   },
   "dependencies": {
     "request": "^2.81.0"

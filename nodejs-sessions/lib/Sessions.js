@@ -1,10 +1,7 @@
-const request = require('request'),
-    crypto = require('crypto'),
-    openwhisk = require('openwhisk');
+const crypto = require('crypto'),
+    extend = require('extend');
 
-const QUERY_ACTION = "/IWIbot_dev/my-cloudant-package/exec-query-find";
-const UPDATE_ACTION = "/IWIbot_dev/my-cloudant-package/update-document";
-const CREATE_ACTION = "/IWIbot_dev/my-cloudant-package/create-document";
+const cloudant = require('./cloudant-client');
 
 const SESSION_DB = "iwibot_sessions";
 
@@ -20,29 +17,24 @@ function retrieve_or_create_session(params) {
             sid: crypto.randomBytes(16).toString('hex'),
             created_h: new Date(),
             created_u: timestamp,
-            expires_u: timestamp + SESSION_LIFETIME,            
+            expires_u: timestamp + SESSION_LIFETIME,
             session_context: {}
         };
     };
 
-    // Openwhisk invocation spec
-    let call = {
-        name: QUERY_ACTION,
-        blocking: true,
-        result: true,
-        params: {
-            "dbname": SESSION_DB,
-            "query": {
-                "selector": {
-                    "sid": params.sid
-                }
+    // cloudant invocation spec
+    _params = extend({}, params, {
+        "dbname": SESSION_DB,
+        "query": {
+            "selector": {
+                "sid": params.sid
             }
         }
-    };
+    });
 
     if (typeof params.sid !== "undefined") {
         // Retrieve session_context
-        return openwhisk().actions.invoke(call)
+        return cloudant.execQueryFind(_params)
             .then(function (msg) {
                 // if session still exists in db
                 if (msg.docs.length > 0) {
@@ -78,30 +70,24 @@ function write_or_update_session(session_doc, params) {
             }
         }
 
-        // Preselect create action ...
-        let _action = CREATE_ACTION;
+        // Preselect create function ...
+        let _action = cloudant.createDocument; 
         // ... or change to update if session doc already exists
         if (typeof session_doc._rev !== "undefined") {
-            _action = UPDATE_ACTION;
+            _action = cloudant.updateDocument; 
         }
 
         console.log("Persisting session id " +
             session_doc.sid + " with extended context " +
-            JSON.stringify(session_doc.session_context) +
-            " using " + _action);
+            JSON.stringify(session_doc.session_context));
 
-        // Openwhisk invocation spec
-        let call = {
-            name: _action,
-            blocking: true,
-            result: true,
-            params: {
-                "dbname": SESSION_DB,
-                "doc": session_doc
-            }
-        };
+        // cloudant invocation spec
+        _params = extend({}, params, {
+            "dbname": SESSION_DB,
+            "doc": session_doc
+        });
 
-        return openwhisk().actions.invoke(call)
+        return _action(_params)
             .then(function (msg) {
                 console.log("Cloudant update response:" + JSON.stringify(msg));
                 return new Promise(function (res, rej) {
