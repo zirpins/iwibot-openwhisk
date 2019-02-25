@@ -92,7 +92,7 @@ $(function () { // call this function after the page has loaded
     console.log("WebCrypto init");
     // $.get("./secret.aes", cryptoMod.initCryptoKey); // use key from local sever instead of openwhisk action
     $.get(
-        "https://us-south.functions.cloud.ibm.com/api/v1/web/IWIbot_dev/IWIbot_dev/Keys.json?sid=",
+        "https://us-south.functions.cloud.ibm.com/api/v1/web/IWIbot_dev/IWIBot/Keys.json?sid=",
         (msg) => cryptoMod.initCryptoKey(msg.payload.crypto_key)
     );
     $("#encrypt").on("click", () => demoPageMod.sendCryptoMsg());
