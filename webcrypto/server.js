@@ -3,7 +3,8 @@ const express = require("express"),
     path = require('path'),
     logger = require('morgan'),
     bodyParser = require('body-parser'),
-    crypto = require('crypto');
+    crypto = require('crypto'),
+    request_promise = require('request-promise');
 
 let app = express();
 let server = http.createServer(app);
@@ -16,15 +17,12 @@ app.use(bodyParser.json());
 
 const algorithm = 'aes-256-cbc';
 
-function decrypt(msg) {
+function decrypt(msg, keystring) {
     // get iv and ciphertext from msg
     const iv = Buffer.from(msg.iv, 'hex');
     const encrypted = Buffer.from(msg.encrypted, 'hex');
-
-    // you get this key string from the key service
-    let keystring = 'b26301cc95648636104ed5c40cd083ec0b507434a809b6186d882f9f3665baa5';
-    // use it to create a buffer
-    let key = Buffer.from(keystring, 'hex');
+    // use keystring to create a buffer
+    const key = Buffer.from(keystring, 'hex');
 
     msg.decrypted = {};
 
@@ -33,12 +31,24 @@ function decrypt(msg) {
     decrypted = decipher.update(encrypted, 'hex', 'utf8');
     decrypted += decipher.final('utf8');
 
-    console.log("Decrypted " + msg.encrypted + " to " + decrypted);
+    console.log("Decrypted " + msg.encrypted + " to " + decrypted + " using key " + keystring);
     return decrypted;
 }
 
 app.post("/requests", function (req, res) {
     if (!req.body)
         return res.sendStatus(400);
-    res.json(decrypt(req.body));
+
+    console.log("Serving call with sid=" + req.body.sid);
+
+    request_promise({
+            // you get this key string from the key service
+            uri: "https://us-south.functions.cloud.ibm.com/api/v1/web/IWIbot_dev/IWIBot/Keys.json?sid=" + req.body.sid,
+            headers: {
+                'User-Agent': 'Request-Promise'
+            },
+            json: true // Automatically parses the JSON string in the response
+        })
+        .then(rsp => res.json(decrypt(req.body, rsp.payload.crypto_key)))
+        .catch(err => console.log(err));
 });

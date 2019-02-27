@@ -1,6 +1,7 @@
 let cryptoMod = (function () {
 
     let secret_key = {}; // the AES secret key object
+    let session_identifier = ""; // session identifier associated with the secret key
 
     if (!("TextEncoder" in window))
         alert("Sorry, this browser does not support TextEncoder...");
@@ -22,7 +23,8 @@ let cryptoMod = (function () {
         ).join('');
     }
 
-    function importSecretAesKey(keyData) {
+    function importSecretAesKey(keyData, session_id) {
+        session_identifier = session_id;
         return window.crypto.subtle.importKey(
             "raw", //can be "jwk" or "raw"
             keyData, // "raw" would be an ArrayBuffer
@@ -48,15 +50,18 @@ let cryptoMod = (function () {
             .then(function (encrypted) {
                 return {
                     "iv": buf2hex(ivec),
-                    "encrypted": buf2hex(new Uint8Array(encrypted))
+                    "encrypted": buf2hex(new Uint8Array(encrypted)),
+                    "sid": session_identifier
                 };
             });
     }
 
     return { // public part of the module
 
-        initCryptoKey: function (keyData) {
-            importSecretAesKey(hex2buf(keyData))
+        initCryptoKey: function (keyData, session_id) {
+            console.log("Setting session identifier to " + session_id);
+            console.log("Setting crypto key to " + keyData);
+            importSecretAesKey(hex2buf(keyData), session_id)
                 .then(key => secret_key = key)
                 .catch(err => console.error(err));
         },
@@ -92,8 +97,8 @@ $(function () { // call this function after the page has loaded
     console.log("WebCrypto init");
     // $.get("./secret.aes", cryptoMod.initCryptoKey); // use key from local sever instead of openwhisk action
     $.get(
-        "https://us-south.functions.cloud.ibm.com/api/v1/web/IWIbot_dev/IWIBot/Keys.json?sid=",
-        (msg) => cryptoMod.initCryptoKey(msg.payload.crypto_key)
+        "https://us-south.functions.cloud.ibm.com/api/v1/web/IWIbot_dev/IWIBot/Keys.json",
+        (msg) => cryptoMod.initCryptoKey(msg.payload.crypto_key, msg.payload.sid)
     );
     $("#encrypt").on("click", () => demoPageMod.sendCryptoMsg());
 });
