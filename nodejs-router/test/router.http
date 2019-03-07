@@ -1,0 +1,9 @@
+POST https://us-south.functions.cloud.ibm.com/api/v1/web/IWIbot_dev/IWIBot/Router.json HTTP/1.0
+
+ {
+     "conInit":"true",
+     "payload":{
+         "toString":"Hallo"
+     }
+ }
+ 
